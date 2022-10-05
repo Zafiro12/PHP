@@ -16,10 +16,19 @@
     <?php
     if (isset($_POST['submit'])) {
         $palabra = $_POST['palabra'];
-        if (strrev($palabra) == $palabra) {
-            echo "<p>La palabra $palabra es palindromo</p>";
+        $palabra = strtolower($palabra);
+        if (is_numeric($palabra)) {
+            if (strrev($palabra) == $palabra) {
+            echo "<p>El numero $palabra es capicuo</p>";
         } else {
-            echo "<p>La palabra $palabra no es palindromo</p>";
+            echo "<p>El numero $palabra no es capicuo</p>";
+        }
+        } else {
+            if ($palabra == strrev($palabra)) {
+                echo "<p>La palabra introducida es un palíndromo</p>";
+            } else {
+                echo "<p>La palabra introducida no es un palíndromo</p>";
+            }
         }
     }
     ?>
