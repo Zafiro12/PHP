@@ -10,7 +10,13 @@
 <body>
     <form action="index.php" method="post">
         <label for="palabra">Traducir números romanos a números arabes:</label>
-        <input type="text" name="palabra" id="palabra" required>
+        <input type="text" name="palabra" id="palabra" required value="<?php
+        if (isset($_POST['palabra'])) {
+            echo $_POST['palabra'];
+        } else {
+            echo "";
+        }
+    ?>">
         <input type="submit" value="Comprobar" name="submit">
     </form>
     <?php

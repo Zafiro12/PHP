@@ -10,7 +10,13 @@
 <body>
     <form action="index.php" method="post">
         <label for="numero">Introduce un número:</label>
-        <input type="number" name="numero" id="numero" required>
+        <input type="number" name="numero" id="numero" required value="<?php
+        if (isset($_POST['numero'])) {
+            echo $_POST['numero'];
+        } else {
+            echo "";
+        }
+    ?>">
         <input type="submit" value="Convertir" name="submit">
     </form>
     <?php

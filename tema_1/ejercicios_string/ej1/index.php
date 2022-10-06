@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Rimas</title>
+    <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>
@@ -47,7 +48,7 @@
         </form>
         <?php
         if (strlen($palabra1) >= 3 && strlen($palabra2) >= 3) {
-            echo "<p>".riman($palabra1, $palabra2)."</p>";
+            echo "<p>" . riman($palabra1, $palabra2) . "</p>";
         }
     } else { ?>
         <form action="index.php" method="post">

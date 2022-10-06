@@ -8,22 +8,26 @@
 </head>
 
 <body>
-    <!-- 
-        Escribe un formulario que admita únicamente números enteros o decimales
-separados por espacios en los que la separación entre la parte entera y la
-decimal pueda ser con comas o con puntos, y que deje todos los números
-con puntos.
-    -->
     <form action="index.php" method="post">
         <label for="numero">Introduce un número:</label>
-        <input type="text" name="numero" id="numero" required>
+        <input type="text" name="numero" id="numero" required value="<?php
+        if (isset($_POST['numero'])) {
+            echo $_POST['numero'];
+        } else {
+            echo "";
+        }
+    ?>">
         <input type="submit" value="Convertir" name="submit">
     </form>
     <?php
     if (isset($_POST['submit'])) {
-        $numero = $_POST['numero'];
-        $numero = str_replace(',', '.', $numero);
-        echo "<p>El número corregido es: $numero</p>";
+        if (preg_match('/^[0-9]+,[0-9]+$/', $_POST['numero'])) {
+            $numero = $_POST['numero'];
+            $numero = str_replace(',', '.', $numero);
+            echo "<p>El número corregido es: $numero</p>";
+        } else {
+            echo "<p>El valor introducido no es válido</p>";
+        }
     }
     ?>
 </body>

@@ -10,7 +10,13 @@
 <body>
     <form action="index.php" method="post">
         <label for="frase">Introduce una frase:</label>
-        <input type="text" name="frase" id="frase" required>
+        <input type="text" name="frase" id="frase" required value="<?php
+        if (isset($_POST['frase'])) {
+            echo $_POST['frase'];
+        } else {
+            echo "";
+        }
+    ?>">
         <input type="submit" value="Comprobar" name="submit">
     </form>
     <?php

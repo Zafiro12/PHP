@@ -10,7 +10,13 @@
 <body>
     <form action="index.php" method="post">
         <label for="palabra">Introduce texto:</label>
-        <textarea name="palabra" id="palabra" cols="30" rows="10" required></textarea>
+        <textarea name="palabra" id="palabra" cols="30" rows="10" required value="<?php
+        if (isset($_POST['palabra'])) {
+            echo $_POST['palabra'];
+        } else {
+            echo "";
+        }
+    ?>"></textarea>
         <input type="submit" value="Comprobar" name="submit">
     </form>
 
