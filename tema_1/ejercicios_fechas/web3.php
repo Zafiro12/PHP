@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <form action="web1.php" method="post">
+    <form action="web3.php" method="post">
     <h1>Fechas - Formulario</h1>
         <label for="fecha1">Introduce una fecha:</label>
         <input type="date" name="fecha1" id="fecha1" required value="<?php
