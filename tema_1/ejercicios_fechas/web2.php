@@ -8,7 +8,6 @@
 </head>
 
 <body>
-    <!-- Formulario que recibe fechas mediante selects y devuelve la diferencia en dias -->
     <form action="web2.php" method="post">
         <h1>Fechas - Formulario</h1>
         <label for="fecha1">Introduce una fecha:</label>
