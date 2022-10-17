@@ -8,15 +8,14 @@
 
 <body>
     <?php
-    function validar_dni($dni)
+    function validar_dni($dni): bool
     {
         $letra = substr($dni, -1);
         $numeros = substr($dni, 0, -1);
         if (substr("TRWAGMYFPDXBNJZSQVHLCKE", $numeros % 23, 1) == $letra && strlen($letra) == 1 && strlen($numeros) == 8) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     if (isset($_POST['enviar'])) {
@@ -38,7 +37,7 @@
         <?php
             echo "<p>Nombre: $nombre</p>";
             echo "<p>Usuario: $usuario</p>";
-            echo "<p>Contraseña: $pwd</p>";
+            echo "<p>Contraseña: $contrasena</p>";
             echo "<p>NIF: $nif</p>";
             echo "<p>Sexo: $sexo</p>";
             echo "<p>Foto: $foto</p>";
