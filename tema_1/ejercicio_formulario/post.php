@@ -17,8 +17,9 @@ function letraNIF($dni): string
 $error_nombre = empty($_POST['nombre']) || strlen($_POST['nombre']) > 20;
 $error_usuario = empty($_POST['usuario']);
 $error_pwd = empty($_POST['pwd']) || strlen($_POST['pwd']) > 8;
-$error_nif = empty($_POST['nif']) || strlen($_POST['nif']) != 9 || letraNIF($_POST['nif']) != substr($_POST['nif'], -1);
+$error_nif = empty($_POST['nif']) || strlen($_POST['nif']) != 9 || letraNIF($_POST['nif']) != strtoupper(substr($_POST['nif'], -1)) ;
 $error_sexo = !isset($_POST['sexo']);
+$foto = $_FILES['foto'];
 
 if (isset($_POST['enviar']) && !$error_nombre && !$error_usuario && !$error_pwd && !$error_nif && !$error_sexo) {
     echo "<h2>Datos recibidos:</h2>";
@@ -28,12 +29,23 @@ if (isset($_POST['enviar']) && !$error_nombre && !$error_usuario && !$error_pwd 
     echo "NIF: " . $_POST['nif'] . "<br>";
     echo "Sexo: " . $_POST['sexo'] . "<br>";
     echo "Suscripción: " . (isset($_POST['sub']) ? "Sí" : "No") . "<br>";
-    if (isset($_POST['foto'])) {
+    if ($_FILES['foto']['name'] != "") {
         /* Si se selecciona una imagen correctamente, esta será movida y renombrada con un nombre
          * nuevo y único y con la misma extensión, a una carpeta dentro de la web llamada “images”.*/
         $nombre_unico = md5(uniqid(uniqid(),true));
-        echo "<h2>Información de la imagen</h2>";
-
+        $error_foto = $_FILES['foto']['error'] != 0 || $_FILES['foto']['size'] > 500000;
+        $extension = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+        if (!$error_foto && in_array($extension, ['jpg', 'jpeg', 'png', 'gif'])) {
+            move_uploaded_file($_FILES['foto']['tmp_name'], "images/$nombre_unico.$extension");
+            echo "<h2>Información de la imagen seleccionada</h2>";
+            echo "Foto: <img src='images/$nombre_unico.$extension' alt='Foto de perfil' width='100px'><br>";
+            echo "Nombre: " . $_FILES['foto']['name'] . "<br>";
+            echo "Tipo: " . $_FILES['foto']['type'] . "<br>";
+            echo "Tamaño: " . $_FILES['foto']['size'] . "<br>";
+            echo "Ruta en el servidor: images/$nombre_unico.$extension<br>";
+        } else {
+            echo "Foto: No se ha podido subir la foto<br>";
+        }
     } else {
         echo "No se ha seleccionado ninguna foto";
     }
