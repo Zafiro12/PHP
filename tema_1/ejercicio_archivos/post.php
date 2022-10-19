@@ -21,13 +21,22 @@ $error_nif = empty($_POST['nif']) || strlen($_POST['nif']) != 9 || letraNIF($_PO
 $error_sexo = !isset($_POST['sexo']);
 
 if (isset($_POST['enviar']) && !$error_nombre && !$error_usuario && !$error_pwd && !$error_nif && !$error_sexo) {
+    echo "<h2>Datos recibidos:</h2>";
     echo "Nombre: " . $_POST['nombre'] . "<br>";
     echo "Usuario: " . $_POST['usuario'] . "<br>";
     echo "Contraseña: " . $_POST['pwd'] . "<br>";
     echo "NIF: " . $_POST['nif'] . "<br>";
     echo "Sexo: " . $_POST['sexo'] . "<br>";
-    echo "Foto: " . $_FILES['foto']['name'] . "<br>";
     echo "Suscripción: " . (isset($_POST['sub']) ? "Sí" : "No") . "<br>";
+    if (isset($_POST['foto'])) {
+        /* Si se selecciona una imagen correctamente, esta será movida y renombrada con un nombre
+         * nuevo y único y con la misma extensión, a una carpeta dentro de la web llamada “images”.*/
+        $nombre_unico = md5(uniqid(uniqid(),true));
+        echo "<h2>Información de la imagen</h2>";
+
+    } else {
+        echo "No se ha seleccionado ninguna foto";
+    }
 } else {
     ?>
 
