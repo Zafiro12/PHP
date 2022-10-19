@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ejemplo de Formulario</title>
+</head>
+
+<body>
+<header>
+    <h1>Rellena tu CV</h1>
+</header>
+<main>
+    <form action="post.php" method="post" enctype="multipart/form-data">
+        <label for="nombre">Nombre:<br></label>
+        <input type="text" name="nombre" id="nombre">
+        <br><br>
+
+        <label for="usuario">Usuario:<br></label>
+        <input type="text" name="usuario" id="usuario">
+        <br><br>
+
+        <label for="pwd">Contraseña:<br></label>
+        <input type="password" name="pwd" id="pwd">
+        <br><br>
+
+        <label for="nif">DNI<br></label>
+        <input type="text" name="nif" id="nif">
+        <br><br>
+
+        <fieldset>
+            <legend>Sexo</legend>
+            <input type="radio" name="sexo" id="hombre" value="hombre">
+            <label for="hombre">Hombre</label>
+            <br>
+            <input type="radio" name="sexo" id="mujer" value="mujer">
+            <label for="mujer">Mujer</label>
+        </fieldset>
+        <br>
+
+        <label for="foto">Incluir mi foto (Archivo tipo imagen máx. 500kb):</label>
+        <input type="file" name="foto" id="foto">
+        <br><br>
+
+        <input type="checkbox" name="sub" id="sub" checked>
+        <label for="sub">Subscribirse al boletín de Novedades</label>
+        <br><br>
+
+        <input type="submit" name="enviar" value="Guardar cambios">
+        <input type="reset" value="Borrar los datos introducidos">
+    </form>
+</main>
+</body>
+</html>
