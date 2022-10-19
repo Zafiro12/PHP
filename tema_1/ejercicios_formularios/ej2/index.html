@@ -5,6 +5,21 @@
     <title>Formulario</title>
 </head>
 <body>
+<form action="post.php" method="post">
+    <label>Refrescos:
+        <select name="refrescos">
+            <option value="Coca Cola">Coca Cola</option>
+            <option value="Pepsi">Pepsi</option>
+            <option value="Fanta">Fanta</option>
+            <option value="Trina">Trina</option>
+        </select>
+    </label><br><br>
 
+    <label>Número de refrescos:
+        <input type="number" name="numero">
+    </label><br><br>
+
+    <button type="submit" name="enviar">Enviar</button>
+</form>
 </body>
 </html>

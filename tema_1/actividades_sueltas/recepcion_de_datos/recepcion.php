@@ -18,7 +18,7 @@ if (isset($_POST['guardar']) && $_POST['guardar'] == 'Guardar' && !empty($_POST[
 </body>
 <?php
 } else {
-    header('Location: index.html');
+    header('Location: index.php');
 }
 ?>
 </html>

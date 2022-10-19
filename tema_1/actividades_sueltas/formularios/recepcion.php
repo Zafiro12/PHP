@@ -30,6 +30,6 @@ if (isset($_POST['Guardar'])) {
 <?php
 }
 else {
-    header("Location: index.html");
+    header("Location: index.php");
 }
 ?>
