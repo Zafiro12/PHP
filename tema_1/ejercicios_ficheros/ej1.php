@@ -27,7 +27,7 @@ $error_numero = empty($_POST["numero"]) || is_nan($_POST["numero"]) || 1 > $_POS
 
             $filename = "Tablas/tabla_". $_POST["numero"] .".txt"; // No se puede crear una carpeta
             $n = 1;
-            @$fichero = fopen($filename, 'w+');
+            $fichero = fopen($filename, 'w+');
 
             while($n<=10){
                 fwrite($fichero, $_POST["numero"] ."x". $n ."=". $_POST["numero"]*$n .PHP_EOL);
