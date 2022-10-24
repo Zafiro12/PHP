@@ -18,45 +18,63 @@ function longitud($str): int {
     }
     return $n;
 }
-$filename = "./horario/horarios.txt";
+
+$error_tamanio = $_FILES['file']['size'] > 1000000;
+$error_tipo = $_FILES['file']['type'] != "text/plain";
+$tmp = $_FILES['file']['tmp_name'];
+$filename = "horario/horario.txt";
+
+if (isset($_POST['enviar'])){
+    if (!$error_tamanio && !$error_tipo) {
+        move_uploaded_file($tmp, $filename);
+    }
+}
+
 $file = fopen($filename, "r");
-$error_archivo = !$file;
+$error_archivo = !$file || $error_tamanio || $error_tipo;
+
 if (!$error_archivo) {
     fclose($file);
 }
-$error_tamanio = 0;
-$error_tipo = 0;
 
-if (isset($_POST['enviar'])){
-    $error_tamanio = $_FILES['file']['size'] > 1000000;
-    $error_tipo = $_FILES['file']['type'] != "text/plain";
-}
-if (isset($_POST['enviar']) && !$error_archivo && !$error_tamanio && !$error_tipo) {
+if ((isset($_POST['enviar']) && !$error_archivo && !$error_tamanio && !$error_tipo)||isset($_POST['horarios'])) {
+    $ver = false;
+    if (isset($_POST['horarios'])) {
+        $ver = true;
+    }
     ?>
     <h1>EJ 4</h1>
     <form action="ej4.php" method="post">
-        <label>Elige:
+        <label for="profesores">Elige:</label>
             <select name="profesores" id="profesores">
                 <?php
-                $file = fopen($filename, 'r');
+                $file = fopen($filename, "r");
                 while (!feof($file)) {
                     $line = fgets($file);
-                    $nombre = "";
-                    for ($i = 0; $i < longitud($line); $i++) {
+                    if ($line == "") {
+                        continue;
+                    }
+                    $opcion = "";
+                    $tamanio= longitud($line);
+                    for ($i = 0; $i < $tamanio; $i++) {
                         if ($line[$i] == "\t") {
                             break;
                         }
-                        $nombre += $line[$i];
+                        $opcion .= $line[$i];
                     }
-                    echo "<option value='$nombre'>$nombre</option>";
+                    echo "<option value='$opcion'>$opcion</option>";
                 }
                 fclose($file);
                 ?>
             </select>
-        </label>
+
         <input type="submit" name="horarios" value="Ver horarios">
 <?php
+if (isset($_POST['horarios']) && $ver) {
+    $profesor = $_POST['profesores'];
+    echo "<p>El profe es". $profesor ."</p>";
 }
+} else {
 ?>
 <h1>EJ 4</h1>
 <form action="ej4.php" method="post" enctype="multipart/form-data">
@@ -68,21 +86,8 @@ if (isset($_POST['enviar']) && !$error_archivo && !$error_tamanio && !$error_tip
 
 <?php
 if ($error_archivo) {
-        echo "<p>No se ha podido encontrar el archivo</p>";
+        echo "<p>El archivo no es válido o no se ha encontrado</p>";
 }
-if (isset($_POST['enviar'])) {
-
-    if ($error_tamanio) {
-        echo "<p>El archivo es demasiado grande</p>";
-    }
-    if ($error_tipo) {
-        echo "<p>El archivo no es de texto</p>";
-    }
-    if (!$error_tamanio && !$error_tipo) {
-        $nombre = $_FILES['file']['name'];
-        $tmp = $_FILES['file']['tmp_name'];
-        move_uploaded_file($tmp, "horario/$nombre");
-    }
 }
 ?>
 </body>
