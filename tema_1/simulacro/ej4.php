@@ -22,7 +22,7 @@ function longitud($str): int {
 $error_tamanio = $_FILES['file']['size'] > 1000000;
 $error_tipo = $_FILES['file']['type'] != "text/plain";
 $tmp = $_FILES['file']['tmp_name'];
-$filename = "horario/horario.txt";
+$filename = "horario/horarios.txt";
 
 if (isset($_POST['enviar'])){
     if (!$error_tamanio && !$error_tipo) {
@@ -72,7 +72,16 @@ if ((isset($_POST['enviar']) && !$error_archivo && !$error_tamanio && !$error_ti
 <?php
 if (isset($_POST['horarios']) && $ver) {
     $profesor = $_POST['profesores'];
-    echo "<p>El profe es". $profesor ."</p>";
+    echo "<h3>". $profesor ."</h3>";
+
+    $lunes = [" "," "," "," "," "," "," "];
+    $martes = [" "," "," "," "," "," "," "];
+    $miercoles = [" "," "," "," "," "," "," "];
+    $jueves = [" "," "," "," "," "," "," "];
+    $viernes = [" "," "," "," "," "," "," "];
+
+    $file = fopen($filename, "r");
+    //todo Horario
 }
 } else {
 ?>
