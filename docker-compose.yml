@@ -7,4 +7,4 @@ services:
       - 80:80
     volumes:
       - ./src:/var/www/html/
-      - ./docker-php.conf:/etc/apache2/conf-available/docker-php.conf
+      - ./docker/docker-php.conf:/etc/apache2/conf-available/docker-php.conf
