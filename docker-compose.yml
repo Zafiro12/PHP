@@ -5,6 +5,13 @@ services:
     build: ./.docker/
     container_name: php-apache2
     ports:
+<<<<<<< HEAD
       - 8002:80
     volumes: 
       - ./src:/var/www/html
+=======
+      - 80:80
+    volumes:
+      - ./src:/var/www/html/
+      - ./docker-php.conf:/etc/apache2/conf-available/docker-php.conf
+>>>>>>> parent of cbb1e10 (24o22e)
