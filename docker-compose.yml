@@ -1,10 +1,10 @@
-version: '3.1'
+version: "3"
 
-services:
-  php:
-    image: php:7.4-apache
+services: 
+  php-apache2-xdebug:
+    build: ./.docker/
+    container_name: php-apache2
     ports:
-      - 80:80
-    volumes:
-      - ./src:/var/www/html/
-      - ./docker/docker-php.conf:/etc/apache2/conf-available/docker-php.conf
+      - 8002:80
+    volumes: 
+      - ./src:/var/www/html
