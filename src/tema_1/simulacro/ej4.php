@@ -6,14 +6,14 @@
 </head>
 <body>
 <?php
-function longitud($str): int {
+function longitud($str): int { // Misma función que strlen
     $n = -1;
 
     while (true) {
         if ($str[$n] == "") {
             break;
         } else {
-            $n++;
+            $n++; 
         }
     }
     return $n;
