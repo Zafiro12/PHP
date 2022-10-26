@@ -30,8 +30,7 @@ if (isset($_POST['enviar'])){
     }
 }
 
-$file = fopen($filename, "r");
-$error_archivo = !$file || $error_tamanio || $error_tipo;
+$error_archivo = $error_tamanio || $error_tipo;
 
 if (!$error_archivo) {
     fclose($file);
