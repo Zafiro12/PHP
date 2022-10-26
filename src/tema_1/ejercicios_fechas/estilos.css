@@ -1,0 +1,17 @@
+form {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: rgb(112, 210, 255);
+    text-align: center;
+}
+.resultado {
+    width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: rgb(179, 255, 172);
+}
