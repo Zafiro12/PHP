@@ -15,18 +15,28 @@
         <input type="submit" name="enviar" value="Enviar">
     </form>
     <?php
-    	function codificar($texto)
-    	{
-    	    
+    	function codificar($texto, $des) {
+    	    for ($i=0; $i < strlen($texto); $i++) { 
+                $letra = $texto[$i];
+                if (ord($letra) <= ord('Z') && ord($letra) >= ord('A')) {
+                    if(ord($letra)+$des > ord('Z')) {
+                        $letra = ord('A') + ((ord($letra)+ $des) - ord('Z'));
+                    } else {
+                        $letra = ord($letra) + $des;
+                    }
+                    $texto[$i] = chr($letra);
+                }
+            }
+            return $texto;
     	}
     
-    	if (isset($_POST['desplazamiento'])) {
+    	if (isset($_POST['enviar'])) {
 	    	$input = $_POST['input'];
 	    	$despl = 1;
-	    	if (isset($_POST['desplazamiento'])) {
+	    	if (!empty($_POST['desplazamiento'])) {
 	    		$despl = $_POST['desplazamiento'];
 	    	}
-	    	echo "1er debug";
+	    	echo codificar($input, $despl);
     	}
     ?>
 </body>

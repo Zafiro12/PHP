@@ -10,8 +10,8 @@
 
 <body>
     <form action="ej1.php" method="post">
-        <input type="text" name="input1">
-        <input type="text" name="input2">
+        <input type="text" name="input1" required>
+        <input type="text" name="input2" required>
         <input type="submit" name="enviar" value="Pulsame">
     </form>
     <?php
@@ -31,19 +31,18 @@
         }
         return false;
     }
-	$input1 = 0;
-    $input2 = 0;
-    
+    if (isset($_POST['enviar'])) {
     $input1 = $_POST['input1'];
     $input2 = $_POST['input2'];
 
     $bool = esSubstr($input1, $input2);
 
     if ($bool) {
-        echo "es substring";
+        echo "es substring".PHP_EOL;
     } else {
-        echo "no es substring";
+        echo "no es substring".PHP_EOL;
     }
+}
     ?>
 </body>
 
