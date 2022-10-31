@@ -7,20 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ejercicio 3</title>
 </head>
-<?php
-$error_input = false;
-?>
 
 <body>
     <form action="ej3.php" method="post" enctype="multipart/form-data">
-        <input type="file" name="input" required><?php
-                                                    if (isset($_POST['enviar'])) {
-                                                        if ($_FILES['input']['error'] != 0) {
-                                                            echo "<strong>*Error al leer el archivo</strong>";
-                                                            $error_input = true;
-                                                        }
-                                                    }
-                                                    ?><br>
         <input type="submit" name="enviar" value="Enviar">
     </form>
     <?php
@@ -47,7 +36,7 @@ $error_input = false;
             $letra = $texto[$i];
             if (ord($letra) <= ord('Z') && ord($letra) >= ord('A')) {
                 if (ord($letra) + $des > ord('Z')) {
-                    $letra = ord('A') + ((ord($letra) + $des) - ord('Z'));
+                    $letra = ord('A') + ((ord($letra) + $des) - ord('Z')) - 1;
                 } else {
                     $letra = ord($letra) + $des;
                 }
@@ -79,6 +68,7 @@ $error_input = false;
             }
             fseek($fp, 0);
         }
+        
 
         if ($fin) {
             $destino = fopen("decodificado.txt", "w"); 
@@ -89,13 +79,17 @@ $error_input = false;
                 
                 fputs($destino,$texto.PHP_EOL);
             }
+            fputs($destino, "Decodificado el ".date("d/m/y"));
             fclose($destino);
+            echo "Decodificado!".PHP_EOL;
         }
+    
         fclose($fp);
+        
     }
-    if (isset($_POST['enviar']) && !$error_input) {
-        $filename = $_FILES['input']['name'];
-        echo "Decodificando " . $filename . "...";
+    if (isset($_POST['enviar'])) {
+        echo "Decodificando texto..." . PHP_EOL;
+        decodificar("./codificado.txt");
     }
     ?>
 </body>

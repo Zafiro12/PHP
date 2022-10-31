@@ -20,7 +20,7 @@
                 $letra = $texto[$i];
                 if (ord($letra) <= ord('Z') && ord($letra) >= ord('A')) {
                     if(ord($letra)+$des > ord('Z')) {
-                        $letra = ord('A') + ((ord($letra)+ $des) - ord('Z'));
+                        $letra = ord('A') + ((ord($letra)+ $des) - ord('Z')) - 1;
                     } else {
                         $letra = ord($letra) + $des;
                     }
