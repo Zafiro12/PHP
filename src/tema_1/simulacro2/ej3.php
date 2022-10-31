@@ -79,9 +79,9 @@
                 
                 fputs($destino,$texto.PHP_EOL);
             }
-            fputs($destino, "Decodificado el ".date("d/m/y"));
+            fputs($destino, "Decodificado el " . date("d/m/y") . PHP_EOL);
             fclose($destino);
-            echo "Decodificado!".PHP_EOL;
+            echo "Decodificado!" . PHP_EOL;
         }
     
         fclose($fp);
