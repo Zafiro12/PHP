@@ -9,7 +9,15 @@
 </head>
 
 <body>
+    <?php
+    $error_input = false;
+    ?>
     <form action="ej3.php" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="file"><?php 
+            if($error_input) {
+                echo "<strong>*El archivo debe de ser menor a 500kb</strong>";
+            }
+        ?>
         <input type="submit" name="enviar" value="Enviar">
     </form>
     <?php
@@ -68,28 +76,32 @@
             }
             fseek($fp, 0);
         }
-        
+
 
         if ($fin) {
-            $destino = fopen("decodificado.txt", "w"); 
+            $destino = fopen("decodificado.txt", "w");
             fseek($fp, 0);
             while (!feof($fp)) {
                 $texto = fgets($fp);
                 $texto = decesar($texto, $cod);
-                
-                fputs($destino,$texto.PHP_EOL);
+
+                fputs($destino, $texto . PHP_EOL);
             }
             fputs($destino, "Decodificado el " . date("d/m/y") . PHP_EOL);
             fclose($destino);
             echo "Decodificado!" . PHP_EOL;
         }
-    
+
         fclose($fp);
-        
     }
+
     if (isset($_POST['enviar'])) {
-        echo "Decodificando texto..." . PHP_EOL;
-        decodificar("./codificado.txt");
+        $error_input = $_FILES['file']['size'] > 500 * 1000 || $_FILES['file']['error'] != 0 || $_FILES['file']['name'] =="";
+        if (!$error_input) {
+            $file = $_FILES['file']['tmp_name'];
+            echo "Decodificando texto..." . PHP_EOL;
+            decodificar($file);
+        }
     }
     ?>
 </body>
