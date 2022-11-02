@@ -22,94 +22,49 @@
         return $n;
     }
 
-    $error_tamanio = $_FILES['file']['size'] > 1000000;
-    $error_tipo = $_FILES['file']['type'] != "text/plain";
-    $tmp = $_FILES['file']['tmp_name'];
-    $filename = "horario/horarios.txt";
+    $subirArchivo = isset($_POST["subirArchivo"]);
+    $error_archivo = false;
 
-    if (isset($_POST['enviar'])) {
-        if (!$error_tamanio && !$error_tipo) {
-            move_uploaded_file($tmp, $filename);
+    if ($subirArchivo) {
+        $error_archivo = $_FILES["file"]["name"] != "horarios2.txt" || $_FILES["file"]["size"] > 1000000 || $_FILES["file"]["type"] != "text/plain";
+        if (!$error_archivo) {
+            move_uploaded_file($_FILES["file"]["tmp_name"], "Horario/horarios2.txt");
         }
     }
 
-    $file = fopen($filename, "r");
-    $error_archivo = !$file || $error_tamanio || $error_tipo;
+    @$comprobar = fopen("Horario/horarios2.txt", "r");
 
-    if (!$error_archivo) {
-        fclose($file);
-    }
-
-    if ((isset($_POST['enviar']) && !$error_archivo && !$error_tamanio && !$error_tipo) || isset($_POST['horarios'])) {
-        $ver = false;
-        if (isset($_POST['horarios'])) {
-            $ver = true;
-        }
+    if (!$comprobar) {
     ?>
-        <h1>EJ 4</h1>
+        <h1>Ejercicio 4</h1>
+        <form action="ej4.php" method="post" enctype="multipart/form-data">
+            <h2>No se encuentra el archivo Horario/horarios2.txt</h2>
+            <label for="file">Seleccione un archivo txt no superior a 1MB:</label>
+            <input type="file" name="file" id="file"><br>
+            <input type="submit" name="subirArchivo" value="subir">
+        </form>
+    <?php
+    } else {
+        fclose($comprobar);
+    ?>
+        <h1>Ejercicio 4</h1>
         <form action="ej4.php" method="post">
-            <label for="profesores">Elige:</label>
-            <select name="profesores" id="profesores">
+            <label for="profesor">Horario del Profesor</label>
+            <select name="profesor" id="profesor">
                 <?php
-                $file = fopen($filename, "r");
-                while (!feof($file)) {
-                    $line = fgets($file);
-                    if ($line == "") {
-                        continue;
+                    $file = fopen("Horario/horarios.txt", "r");
+
+                    while(!feof($file)) {
+                        $line = fgets($file);
+                        
                     }
-                    $opcion = "";
-                    $tamanio = longitud($line);
-                    for ($i = 0; $i < $tamanio; $i++) {
-                        if ($line[$i] == "\t") {
-                            break;
-                        }
-                        $opcion .= $line[$i];
-                    }
-                    echo "<option value='$opcion'>$opcion</option>";
-                }
-                fclose($file);
+                    fclose($file);
                 ?>
             </select>
-
-            <input type="submit" name="horarios" value="Ver horarios">
-            <?php
-            if (isset($_POST['horarios']) && $ver) {
-                $profesor = $_POST['profesores'];
-                echo "<h3>" . $profesor . "</h3>";
-
-                $lunes = [" ", " ", " ", " ", " ", " ", " "];
-                $martes = [" ", " ", " ", " ", " ", " ", " "];
-                $miercoles = [" ", " ", " ", " ", " ", " ", " "];
-                $jueves = [" ", " ", " ", " ", " ", " ", " "];
-                $viernes = [" ", " ", " ", " ", " ", " ", " "];
-
-                /*$file = fopen($filename, "r");
-                while (!feof($file)) {
-                    $line = fgets($file);
-                    for ($i = 0; $i < longitud($line); $i++) {
-                        $texto = $line[$i];
-                        if ($tab_counter != 0) {
-
-                        }
-                    }
-                }*/
-            }
-        } else {
-            ?>
-            <h1>EJ 4</h1>
-            <form action="ej4.php" method="post" enctype="multipart/form-data">
-                <label>Sube un archivo:
-                    <input type="file" name="file" id="file">
-                    <input type="submit" name="enviar" value="Enviar">
-                </label>
-            </form>
-
-        <?php
-            if ($error_archivo) {
-                echo "<p>El archivo no es válido o no se ha encontrado</p>";
-            }
-        }
-        ?>
+        </form>
+    <?php
+    }
+    ?>
 </body>
 
 </html>
