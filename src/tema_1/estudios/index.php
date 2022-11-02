@@ -127,7 +127,11 @@
             <input type="file" name="file" id="archivo">
         </div>
 
-        <input type="submit" name="submit" value="Enviar">
+        <div>
+            <input type="submit" name="submit" value="Enviar">
+            <input type="reset" value="Borrar">
+        </div>
+        
     </form>
 
     <?php
@@ -137,7 +141,7 @@
         echo "<p>Sexo: " . $_POST['radio'] . "</p>";
         echo "<p>Provincia: " . $_POST['select'] . "</p>";
         if (!empty($_POST['textarea'])) echo "<p>Descripción: " . $_POST['textarea'] . "</p>";
-        echo "<p>Suscripción: " . $_POST['checkbox'] . "</p>";
+        if (isset($_POST['checkbox'])) echo "<p>Suscripción: " . $_POST['checkbox'] . "</p>";
 
         if (!$error_file) {
             echo "<hr>";
