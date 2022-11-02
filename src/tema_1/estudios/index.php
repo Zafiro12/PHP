@@ -160,16 +160,17 @@
             echo "<hr>";
             echo "<h2>Archivo</h2>";
             echo "<p>Nombre: " . $_FILES['file']['name'] . "</p>";
+            echo "<p>Tamaño: " . round($_FILES['file']['size']/1024, 2) . "kb</p>";
 
             if ($_FILES['file']['type'] == "text/plain") {
-                echo "<h3>Contenido</h3>";
+                echo "<h3>Contenido:</h3>";
                 $file = fopen($_FILES['file']['tmp_name'], "r");
-
+                echo "<div>";
                 while (!feof($file)) {
                     $line = fgets($file);
                     echo "<p>$line</p>";
                 }
-
+                echo "</div>";
                 fclose($file);
             }
         }
