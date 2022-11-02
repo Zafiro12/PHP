@@ -172,6 +172,9 @@
                 }
                 echo "</div>";
                 fclose($file);
+            } else if ($_FILES['file']['type'] == "image/jpeg") {
+                move_uploaded_file($_FILES['file']['tmp_name'], "./Imagenes/".$_FILES['file']['name']);
+                echo "<img src='./Imagenes/". $_FILES['file']['name'] ."' width ='100px' height='100px'>";
             }
         }
 
