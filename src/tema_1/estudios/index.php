@@ -89,22 +89,27 @@
         <div>
             <label for="nombre">Nombre:</label>
             <!--Cuidado con los espacios al colocar código dentro de las etiquetas-->
-            <input type="text" name="text" id="nombre" <?php mantenerValor("text"); ?>> 
+            <input type="text" name="text" id="nombre" <?php mantenerValor("text"); ?>>
             <?php errorCampo($error_text) ?>
         </div>
 
         <div>
             <label for="hombre">Hombre</label>
-            <input type="radio" name="radio" id="hombre" value="hombre">
+            <input type="radio" name="radio" id="hombre" value="hombre" <?php
+                                                                        if (!$error_radio && isset($_POST['radio']) && $_POST['radio'] == "hombre") echo "checked";
+                                                                        ?>>
 
             <label for="mujer">Mujer</label>
-            <input type="radio" name="radio" id="mujer" value="mujer">
+            <input type="radio" name="radio" id="mujer" value="mujer" <?php
+                                                                        if (!$error_radio && isset($_POST['radio']) && $_POST['radio'] == "mujer") echo "checked";
+                                                                        ?>>
 
             <?php errorCampo($error_radio) ?>
         </div>
 
         <div>
             <label for="provincia">Provincia:</label>
+            <!--Para mantener los select es así: if ($_POST['name'] == 'a') { echo selected="true"; }-->
             <select name="select" id="provincia">
                 <option value="malaga">Málaga</option>
                 <option value="cadiz">Cádiz</option>
