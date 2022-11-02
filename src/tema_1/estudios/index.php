@@ -59,21 +59,21 @@
 <body>
     <?php
     function mantenerValor($nombre)
-    {
+    { // Mantiene el valor de los campos de texto
         if (isset($_POST[$nombre])) {
             echo "value='" . $_POST[$nombre] . "'";
         }
     }
 
     function errorCampo($booleano)
-    {
+    { // Coloca un span en caso de ser 'true'
         if ($booleano) {
             echo "<span style='color:red;'>*Campo Obligatorio</span>";
         }
     }
 
     // Se crean las variables de los errores
-    // Es mejor inicializarlas con false
+    // Es mejor inicializarlas con false y luego cambiar el valor al enviar
     $error_text = false;
     $error_radio = false;
     $error_file = false;
@@ -88,7 +88,8 @@
     <form action="index.php" method="post" enctype="multipart/form-data">
         <div>
             <label for="nombre">Nombre:</label>
-            <input type="text" name="text" id="nombre" <?php mantenerValor("text"); ?>>
+            <!--Cuidado con los espacios al colocar código dentro de las etiquetas-->
+            <input type="text" name="text" id="nombre" <?php mantenerValor("text"); ?>> 
             <?php errorCampo($error_text) ?>
         </div>
 
@@ -114,12 +115,18 @@
 
         <div>
             <label for="descripcion">Descripción:</label>
-            <textarea name="textarea" id="descripcion" cols="30" rows="5" style="resize: none;" <?php mantenerValor("textarea"); ?>></textarea>
+            <textarea name="textarea" id="descripcion" cols="30" rows="5" style="resize: none;"><?php
+                                                                                                if (isset($_POST['textarea'])) {
+                                                                                                    echo $_POST['textarea'];
+                                                                                                }
+                                                                                                ?></textarea>
         </div>
 
         <div>
             <label for="sub">Suscribirse</label>
-            <input type="checkbox" name="checkbox" id="sub" checked>
+            <input type="checkbox" name="checkbox" id="sub" <?php
+                                                            if (isset($_POST['checkbox'])) echo "checked";
+                                                            ?>>
         </div>
 
         <div>
@@ -131,7 +138,7 @@
             <input type="submit" name="submit" value="Enviar">
             <input type="reset" value="Borrar">
         </div>
-        
+
     </form>
 
     <?php
@@ -141,7 +148,8 @@
         echo "<p>Sexo: " . $_POST['radio'] . "</p>";
         echo "<p>Provincia: " . $_POST['select'] . "</p>";
         if (!empty($_POST['textarea'])) echo "<p>Descripción: " . $_POST['textarea'] . "</p>";
-        if (isset($_POST['checkbox'])) echo "<p>Suscripción: " . $_POST['checkbox'] . "</p>";
+        if (!isset($_POST['checkbox'])) echo "<p>Suscripción: Inactiva</p>";
+        else echo "<p>Suscripción: Activa</p>";
 
         if (!$error_file) {
             echo "<hr>";
