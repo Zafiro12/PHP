@@ -22,7 +22,8 @@
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: root
-            # MYSQL_USER_NAME: 
+            MYSQL_USER: jose
+            MYSQL_PASSWORD: josefa
 
     phpmyadmin:
         image: phpmyadmin
