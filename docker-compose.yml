@@ -4,29 +4,27 @@
     apache2:
         build:
             context: .
-            dockerfile: ./.docker/php/Dockerfile
+            dockerfile: .docker/php/Dockerfile
         environment:
-            XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9003 remote_enable=1 # USAR 172.17.0.1 en linux
+            XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9003 remote_enable=1
         ports:
             - '80:80'
         volumes:
-            - './src:/var/www/html'
-            - ./.docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-            - ./.docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
-            - ./.docker/php/conf.d/docker-php.conf:/etc/apache2/conf-available/docker-php.conf
+            - .:/var/www/html
+            - .docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+            - .docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+            - .docker/php/conf.d/docker-php.conf:/etc/apache2/conf-available/docker-php.conf
         extra_hosts:
         - "host.docker.internal:host-gateway"
     
     db:
-        image: mariadb:10.6
+        image: mysql:latest
+        volumes:
+            - .docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
         restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_USER: jose
-            MYSQL_PASSWORD: josefa
 
     phpmyadmin:
-        image: phpmyadmin
+        image: phpmyadmin:latest
         restart: always
         ports:
             - 5555:80
