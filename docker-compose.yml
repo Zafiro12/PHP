@@ -10,7 +10,7 @@
         ports:
             - '80:80'
         volumes:
-            - .:/var/www/html
+            - ./src:/var/www/html
             - .docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
             - .docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
             - .docker/php/conf.d/docker-php.conf:/etc/apache2/conf-available/docker-php.conf
@@ -18,13 +18,18 @@
         - "host.docker.internal:host-gateway"
     
     db:
-        image: mysql:latest
-        volumes:
-            - .docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+        build: 
+            context: .
+            dockerfile: .docker/mysql/Dockerfile
         restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: jose
+            MYSQL_PASSWORD: josefa
+    
 
     phpmyadmin:
         image: phpmyadmin:latest
         restart: always
         ports:
-            - 5555:80
+            - 8080:80
