@@ -46,6 +46,11 @@
     <form action="usuario_nuevo.php" method="post">
         <input type="submit" name="submit" value="Introducir un nuevo usuario">
     </form>
+    <!-- todo:
+        1. Ver datos de un usuario
+        2. Borrar un usuario
+        3. Editar un usuario
+    -->
 </body>
 
 </html>
