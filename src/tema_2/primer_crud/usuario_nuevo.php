@@ -11,7 +11,6 @@ if (isset($_POST['continuar'])) {
     $error_clave = empty($_POST['clave']);
     $error_email = empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
 
-    // Comprobamos si el usuario ya existe
     $consulta = "SELECT * FROM usuarios WHERE usuario = '" . $_POST['usuario'] . "'";
     $resultado = mysqli_query($conexion, $consulta) or die("<p>Imposible ejecutar la consulta. Error número " . mysqli_errno($conexion) . ": " . mysqli_error($conexion) . "</p>");
 
@@ -52,17 +51,25 @@ if (isset($_POST['continuar'])) {
     <h1>Nuevo usuario</h1>
     <form action="usuario_nuevo.php" method="post">
         <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" id="nombre"> <?php if ($error_nombre) echo "<span style='color:red'>El nombre no puede estar vacío</span>"; ?>
+        <input type="text" name="nombre" id="nombre"> 
+        <?php if ($error_nombre) echo "<span style='color:red'>El nombre no puede estar vacío</span>"; ?>
         <br><br>
+
         <label for="usuario">Usuario</label>
-        <input type="text" name="usuario" id="usuario"> <?php if ($error_usuario) echo "<span style='color:red'>El usuario no puede estar vacío o ya existe</span>"; ?>
+        <input type="text" name="usuario" id="usuario"> 
+        <?php if ($error_usuario) echo "<span style='color:red'>El usuario no puede estar vacío o ya existe</span>"; ?>
         <br><br>
+
         <label for="clave">Clave</label>
-        <input type="password" name="clave" id="clave" minlength="8"> <?php if ($error_clave) echo "<span style='color:red'>La clave no puede estar vacía</span>"; ?>
+        <input type="password" name="clave" id="clave" minlength="8"> 
+        <?php if ($error_clave) echo "<span style='color:red'>La clave no puede estar vacía</span>"; ?>
         <br><br>
+
         <label for="email">Email:</label>
-        <input type="email" name="email" id="email"> <?php if ($error_email) echo "<span style='color:red'>El email no puede estar vacío o no es válido</span>"; ?>
+        <input type="email" name="email" id="email"> 
+        <?php if ($error_email) echo "<span style='color:red'>El email no puede estar vacío o no es válido</span>"; ?>
         <br><br>
+        
         <input type="submit" name="continuar" value="Continuar">
         <input type="submit" name="volver" value="Volver">
     </form>
