@@ -32,8 +32,6 @@ if (isset($_POST['continuar'])) {
             echo "Error al insertar el usuario";
         }
     }
-} else if (isset($_POST['volver'])) {
-    header("Location: index.php");
 }
 
 ?>
@@ -71,7 +69,7 @@ if (isset($_POST['continuar'])) {
         <br><br>
         
         <input type="submit" name="continuar" value="Continuar">
-        <input type="submit" name="volver" value="Volver">
+        <input type="submit" formaction="index.php" value="Volver">
     </form>
 </body>
 
