@@ -9,7 +9,11 @@ $error_email = false;
 if (isset($_POST['continuar'])) {
     $error_nombre = empty($_POST['nombre']);
     $error_clave = empty($_POST['clave']);
-    $error_email = empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+
+    $consulta = "SELECT * FROM usuarios WHERE email = '" . $_POST['email'] . "'";
+    $resultado = mysqli_query($conexion, $consulta) or die("<p>Imposible ejecutar la consulta. Error número " . mysqli_errno($conexion) . ": " . mysqli_error($conexion) . "</p>");
+
+    $error_email = empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) || mysqli_num_rows($resultado) > 0;
 
     $consulta = "SELECT * FROM usuarios WHERE usuario = '" . $_POST['usuario'] . "'";
     $resultado = mysqli_query($conexion, $consulta) or die("<p>Imposible ejecutar la consulta. Error número " . mysqli_errno($conexion) . ": " . mysqli_error($conexion) . "</p>");
