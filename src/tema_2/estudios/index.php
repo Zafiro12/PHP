@@ -28,9 +28,9 @@ function visualizarDatos($link, $tabla)
                     echo "<td>" . $row[$name] . "</td>";
                 }
                 echo "<td>";
-                echo "<a href='delete.php?id=" . $row['id'] . "'><img src='" . $enlaces[0] . "' width='20px' height='20px'></a>";
-                echo "<a href='update.php?id=" . $row['id'] . "'><img src='" . $enlaces[1] . "' width='20px' height='20px'></a>";
-                echo "<a href='view.php?id=" . $row['id'] . "'><img src='" . $enlaces[2] . "' width='20px' height='20px'></a>";
+                echo "<a href='delete.php?id=" . $row['id'] . "'><img src='" . $enlaces[0] . "' width='20px' height='20px'></a>".PHP_EOL;
+                echo "<a href='update.php?id=" . $row['id'] . "'><img src='" . $enlaces[1] . "' width='20px' height='20px'></a>".PHP_EOL;
+                echo "<a href='view.php?id=" . $row['id'] . "'><img src='" . $enlaces[2] . "' width='20px' height='20px'></a>".PHP_EOL;
                 echo "</tr>";
             }
             echo "</table>";
