@@ -48,6 +48,10 @@ table, td, th {
     border-collapse: collapse;
     text-align: center;
 }
+td {
+    margin: 5px;
+    padding: 5px;
+}
 
 .input {
     margin: 1rem;

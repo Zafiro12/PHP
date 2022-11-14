@@ -14,8 +14,11 @@ function visualizarDatos($link, $tabla)
             echo "<tr>";
             $nameArray=array();
             while ($fieldinfo = mysqli_fetch_field($result)) {
-                echo "<th>" . $fieldinfo->name . "</th>";
-                array_push($nameArray, $fieldinfo->name);
+                // saltarse el campo usuario,clave
+                if ($fieldinfo->name != "usuario" && $fieldinfo->name != "clave") {
+                    echo "<th>" . $fieldinfo->name . "</th>";
+                    $nameArray[]=$fieldinfo->name;
+                }
             }
             echo "<th>Acciones</th>";
             echo "</tr>";

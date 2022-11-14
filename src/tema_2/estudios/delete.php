@@ -31,6 +31,7 @@ if (isset($_POST['id']) && !empty(trim($_POST['id']))) {
 
 <body>
     <div class="centrar">
+        <h1>Eliminar usuario</h1>
         <form action="delete.php" method="post">
             <input type="hidden" name="id" value="<?php echo trim($_GET["id"]); ?>" />
             <h3>Estás seguro de que quieres eliminar este registro?</h3>
