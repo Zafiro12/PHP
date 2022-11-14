@@ -25,14 +25,14 @@ function insertar($link, $tabla, ...$args) {
 }
 
 function comprobarNombre($nombre) {
-    if (strlen($nombre) < 3) {
+    if (strlen($nombre) < 3 || strlen($nombre) > 20) {
         return false;
     }
     return true;
 }
 
 function comprobarEmail($email) {
-    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 30) {
         return true;
     }
     return false;
@@ -46,7 +46,7 @@ function comprobarClave($clave) {
 }
 
 function comprobarUsuario($link, $usuario) {
-    if (strlen($usuario) < 3) {
+    if (strlen($usuario) < 3 || strlen($usuario) > 20) {
         return false;
     }
     $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
@@ -112,7 +112,7 @@ if (isset($_POST['crear'])) {
             <form action="create.php" method="post" class="centrar">
 
                 <?php if ($error_nombre) { ?>
-                        <span style="color:red;font-style: italic;">El nombre debe tener al menos 3 caracteres.</span>
+                        <span style="color:red;font-style: italic;">El nombre no es válido.</span>
                 <?php } ?>
                 <div class="input">
                     <label for="nombre">Nombre</label>

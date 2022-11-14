@@ -22,7 +22,7 @@ function editar($link, $tabla, $id, ...$args)
 
 function comprobarNombre($nombre)
 {
-    if (strlen($nombre) < 3) {
+    if (strlen($nombre) < 3 || strlen($nombre) > 20) {
         return false;
     }
     return true;
@@ -30,7 +30,7 @@ function comprobarNombre($nombre)
 
 function comprobarEmail($email)
 {
-    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 30) {
         return true;
     }
     return false;
@@ -46,7 +46,7 @@ function comprobarClave($clave)
 
 function comprobarUsuario($link, $usuario, $id)
 {
-    if (strlen($usuario) < 3) {
+    if (strlen($usuario) < 3 || strlen($usuario) > 20) {
         return false;
     }
 
