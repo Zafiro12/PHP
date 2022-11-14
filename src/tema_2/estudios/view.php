@@ -5,8 +5,10 @@ function seleccionar($link, $tabla, $id)
     if ($result = mysqli_query($link, $sql)) {
         if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            mysqli_free_result($result);
             return $row;
         } else {
+            mysqli_free_result($result);
             return false;
         }
     } else {

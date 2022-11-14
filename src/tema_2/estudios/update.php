@@ -55,6 +55,7 @@ function comprobarUsuario($link, $usuario, $id)
     if ($result = mysqli_query($link, $sql)) {
         $row = mysqli_fetch_assoc($result);
         if ($row['usuario'] == $usuario) {
+            mysqli_free_result($result);
             return true;
         }
     }
@@ -62,8 +63,10 @@ function comprobarUsuario($link, $usuario, $id)
     $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
     if ($result = mysqli_query($link, $sql)) {
         if (mysqli_num_rows($result) > 0) {
+            mysqli_free_result($result);
             return false;
         }
+        mysqli_free_result($result);
         return true;
     }
 }
@@ -96,6 +99,7 @@ if ($result = mysqli_query($link, $sql)) {
 } else {
     die("Algo salió mal. Por favor, inténtelo de nuevo más tarde.");
 }
+mysqli_free_result($result);
 
 if (isset($_POST['guardar'])) {
     $nombre = $_POST['nombre'];

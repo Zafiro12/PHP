@@ -52,8 +52,10 @@ function comprobarUsuario($link, $usuario) {
     $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
     if ($result = mysqli_query($link, $sql)) {
         if (mysqli_num_rows($result) > 0) {
+            mysqli_free_result($result);
             return false;
         }
+        mysqli_free_result($result);
         return true;
     }
     return false;
