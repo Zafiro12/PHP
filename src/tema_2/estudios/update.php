@@ -59,18 +59,8 @@ function comprobarUsuario($link, $usuario, $id)
     if (strlen($usuario) < 3 || strlen($usuario) > 20) {
         return false;
     }
-
-    // Primero miramos si se ha cambiado el usuario, si no, no hay que comprobarlo
-    $sql = "SELECT usuario FROM usuarios WHERE id = $id";
-    if ($result = mysqli_query($link, $sql)) {
-        $row = mysqli_fetch_assoc($result);
-        if ($row['usuario'] == $usuario) {
-            mysqli_free_result($result);
-            return true;
-        }
-    }
     
-    $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
+    $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario' AND id != $id";
     if ($result = mysqli_query($link, $sql)) {
         if (mysqli_num_rows($result) > 0) {
             mysqli_free_result($result);
