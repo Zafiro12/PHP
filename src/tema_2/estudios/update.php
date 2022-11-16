@@ -36,11 +36,21 @@ function comprobarEmail($email)
     return false;
 }
 
-function comprobarClave($clave)
+function comprobarClave($link, $clave, $id)
 {
-    if (strlen($clave) < 8) {
+    if (strlen($clave) < 8 && $clave != "") {
         return false;
     }
+    
+    $sql = "SELECT clave FROM usuarios WHERE id = $id";
+    if ($result = mysqli_query($link, $sql)) {
+        $row = mysqli_fetch_assoc($result);
+        if ($row['clave'] == $clave) {
+            mysqli_free_result($result);
+            return true;
+        }
+    }
+
     return true;
 }
 
@@ -91,7 +101,7 @@ if ($result = mysqli_query($link, $sql)) {
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
         $nombre = $row['nombre'];
         $email = $row['email'];
-        $clave = $row['clave'];
+        $claveAntigua = $row['clave'];
         $usuario = $row['usuario'];
     } else {
         die("Algo salió mal. Por favor, inténtelo de nuevo más tarde.");
@@ -112,14 +122,18 @@ if (isset($_POST['guardar'])) {
     if (!comprobarEmail($email)) {
         $error_email = true;
     }
-    if (!comprobarClave($clave)) {
+    if (!comprobarClave($link,$clave,$id)) {
         $error_clave = true;
+    } else if ($clave == "") {
+        $clave = $claveAntigua;
     }
     if (!comprobarUsuario($link, $usuario, $id)) {
         $error_usuario = true;
     }
     if (!$error_nombre && !$error_email && !$error_clave && !$error_usuario) {
-        $clave = md5($clave);
+        if (!$clave == $claveAntigua) {
+            $clave = md5($clave);
+        }
         if (editar($link, "usuarios", $id, $nombre, $email, $usuario, $clave)) {
             header("location: index.php");
         } else {
@@ -140,7 +154,7 @@ if (isset($_POST['guardar'])) {
 <body>
     <div class="centrar">
         <header>
-            <h1>Editar usuario</h1>
+            <h1>Editando usuario <?php echo $id.PHP_EOL; ?></h1>
         </header>
         <main>
             <?php
