@@ -193,7 +193,7 @@ if (isset($_POST['guardar'])) {
                 <?php } ?>
                 <div class="input">
                     <label for="clave">Clave</label>
-                    <input type="password" name="clave" id="clave">
+                    <input type="password" name="clave" id="clave" placeholder="Dejar en blanco si es igual">
                 </div>
 
                 <div class="input">
