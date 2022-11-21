@@ -219,7 +219,7 @@ if (isset($_POST['guardar'])) {
                 echo "<span style='color:red;font-style: italic;'>Error al editar los datos, vuleve a intentarlo más tarde</span>";
             }
             ?>
-            <form action="update.php" method="post" class="centrar">
+            <form action="update.php" method="post" class="centrar" enctype="multipart/form-data">
 
                 <?php if ($error_nombre) { ?>
                     <span style="color:red;font-style: italic;">El nombre debe tener al menos 3 caracteres.</span>

@@ -7,5 +7,5 @@ CREATE TABLE usuarios(
     nombre varchar(50),
     dni varchar(10),
     sexo ENUM("hombre","mujer"),
-    foto varchar(30) DEFAULT "no_imagen.jpg"
+    foto varchar(30) DEFAULT "img/default.jpg"
 );
