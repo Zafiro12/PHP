@@ -93,7 +93,7 @@ function comprobarDNI($dni)
     return true;
 }
 
-function transaccionFoto($file) {
+function transaccionFoto($file, $uniqueID) {
     $nombre = $file['name'];
     $tmp_name = $file['tmp_name'];
     $error = $file['error'];
@@ -117,7 +117,7 @@ function transaccionFoto($file) {
         return false;
     }
 
-    $destino = "img/$nombre";
+    $destino = "img/$uniqueID.$extension";
     if (!move_uploaded_file($tmp_name, $destino)) {
         return false;
     }
@@ -178,10 +178,11 @@ if (isset($_POST['guardar'])) {
         $error_dni = true;
     }
     if (isset($_FILES['foto']) && !empty($_FILES['foto']['name'])) {
-        if (!transaccionFoto($_FILES['foto'])) {
+        $uniqueID = uniqid();
+        if (!transaccionFoto($_FILES['foto'], $uniqueID)) {
             $error_foto = true;
         } else {
-            $foto = "img/".$_FILES['foto']['name'];
+            $foto = "img/".$uniqueID.".".pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
         }
     }
 
@@ -263,7 +264,7 @@ if (isset($_POST['guardar'])) {
                     <span style="color:red;font-style: italic;">La foto no es válida.</span>
                 <?php } ?>
                 <div class="input">
-                    <label for="foto">Incluir mi foto:</label>
+                    <label for="foto">Incluir mi foto(no seleccionar ninguna si es la misma):</label><br>
                     <input type="file" name="foto" id="foto" value="<?php echo $foto; ?>">
                 </div>
 

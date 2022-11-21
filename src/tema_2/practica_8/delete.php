@@ -1,6 +1,18 @@
 <?php
 function eliminar($link, $tabla, $id)
 {
+    $sql = "SELECT foto FROM $tabla WHERE id_usuario = $id";
+    if ($result = mysqli_query($link, $sql)) {
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_array($result);
+            if ($row['foto'] != "img/default.png") {
+                unlink($row['foto']);
+            }
+        }
+    }
+
+    mysqli_free_result($result);
+    
     $sql = "DELETE FROM $tabla WHERE id_usuario = $id";
     if (mysqli_query($link, $sql)) {
         return true;
