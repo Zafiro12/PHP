@@ -49,7 +49,7 @@ button:hover,
 table,
 td,
 th {
-    border: 1px solid #808080;
+    border: 1px solid #000000;
     border-collapse: collapse;
     text-align: center;
 }
