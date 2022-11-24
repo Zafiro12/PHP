@@ -56,21 +56,21 @@ function visualizarDatos($link, $tabla)
 
 <head>
     <meta charset="UTF-8">
-    <title>Usuarios</title>
+    <title>Peliculas</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>
     <div class="centrar">
         <header>
-            <h1>Usuarios</h1>
-            <button type="button" onclick="window.location.href='create.php'">Crear nuevo usuario</button>
+            <h1>Peliculas</h1>
+            <button type="button" onclick="window.location.href='create.php'">Insertar pelicula</button>
         </header>
         <main>
             <?php
             // Incluir archivo de configuracion
             require_once "config.php";
-            visualizarDatos($link, "usuarios");
+            visualizarDatos($link, "peliculas");
             // Cerrar conexion
             mysqli_close($link);
             ?>

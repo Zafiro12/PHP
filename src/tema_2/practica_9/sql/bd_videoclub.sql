@@ -6,5 +6,5 @@ CREATE TABLE peliculas(
     director varchar(20),
     sinopsis text,
     tematica varchar(15),
-    caratula varchar(30) DEFAULT "img/default.jpg"
+    caratula varchar(30) DEFAULT "img/default.png"
 );
