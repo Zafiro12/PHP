@@ -73,7 +73,7 @@ function comprobarDNI($dni)
         return false;
     }
 
-    $letra = substr($dni, -1);
+    $letra = strtoupper(substr($dni, -1));
     $numeros = substr($dni, 0, -1);
 
     if (!is_numeric($numeros)) {
