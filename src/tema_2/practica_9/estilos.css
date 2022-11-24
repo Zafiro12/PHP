@@ -28,7 +28,8 @@ h1 {
     padding: 0;
 }
 
-button, .boton {
+button,
+.boton {
     background-color: #00a2ff;
     border: 1px solid lightgray;
     color: white;
@@ -38,16 +39,21 @@ button, .boton {
     padding: 10px;
     margin: 5px;
 }
-button:hover, .boton:hover {
+
+button:hover,
+.boton:hover {
     background-color: #0080ff;
     cursor: pointer;
 }
 
-table, td, th {
+table,
+td,
+th {
     border: 1px solid #808080;
     border-collapse: collapse;
     text-align: center;
 }
+
 td {
     margin: 5px;
     padding: 5px;
@@ -56,6 +62,7 @@ td {
 .input {
     margin: 1rem;
 }
+
 label {
     font-weight: bold;
 }
