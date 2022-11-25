@@ -1,18 +1,18 @@
 <?
 function editar($link, $tabla, $id, ...$args)
 {
-    //coger el nombre de las columnas
     $sql = "SHOW COLUMNS FROM $tabla";
     $columnas = mysqli_query($link, $sql);
+
     $sql = "UPDATE $tabla SET ";
-    //salta la primera columna que es el id
-    $columnas->fetch_assoc();
-    $i = 0;
-    while ($columna = $columnas->fetch_assoc()) {
-        $sql .= $columna['Field'] . " = '" . $args[$i] . "',";
-        $i++;
+
+    while ($col = mysqli_fetch_array($columnas)) {
+        if ($col['Field'] != "id_pelicula") {
+            $sql .= $col['Field'] . " = '" . array_shift($args) . "', ";
+            
+        }
     }
-    $sql = substr($sql, 0, -1) . " WHERE id_usuario = $id";
+    $sql = substr(trim($sql), 0, -1) . " WHERE id_pelicula = $id";
     if (mysqli_query($link, $sql)) {
         return true;
     } else {
@@ -20,80 +20,22 @@ function editar($link, $tabla, $id, ...$args)
     }
 }
 
-function comprobarNombre($nombre)
+function peliculaRepetida($link, $id, $titulo, $director)
 {
-    if (strlen($nombre) < 3 || strlen($nombre) > 20) {
-        return false;
-    }
-    return true;
-}
-
-function comprobarClave($link, $clave, $id)
-{
-    if (strlen($clave) < 8 && $clave != "") {
-        return false;
-    }
-    
-    $sql = "SELECT clave FROM usuarios WHERE id_usuario = $id";
-    if ($result = mysqli_query($link, $sql)) {
-        $row = mysqli_fetch_assoc($result);
-        if ($row['clave'] == $clave) {
-            mysqli_free_result($result);
-            return true;
-        }
-    }
-
-    return true;
-}
-
-function comprobarUsuario($link, $usuario, $id)
-{
-    if (strlen($usuario) < 3 || strlen($usuario) > 20) {
-        return false;
-    }
-    
-    $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario' AND id_usuario != $id";
+    $sql = "SELECT * FROM peliculas WHERE titulo = '$titulo' AND director = '$director' AND id_pelicula != $id";
     if ($result = mysqli_query($link, $sql)) {
         if (mysqli_num_rows($result) > 0) {
-            mysqli_free_result($result);
+            return true;
+        } else {
             return false;
         }
-        mysqli_free_result($result);
-        return true;
+    } else {
+        return false;
     }
 }
 
-function comprobarDNI($dni)
+function transaccionCaratula($file, $uniqueID)
 {
-    function LetraNIF($dni)
-    {
-        $valor = (int) ($dni / 23);
-        $valor *= 23;
-        $valor = $dni - $valor;
-        $letras = "TRWAGMYFPDXBNJZSQVHLCKEO";
-        $letraNif = substr($letras, $valor, 1);
-        return $letraNif;
-    }
-
-    if (strlen($dni) != 9) {
-        return false;
-    }
-
-    $letra = strtoupper(substr($dni, -1));
-    $numeros = substr($dni, 0, -1);
-
-    if (!is_numeric($numeros)) {
-        return false;
-    }
-
-    if (LetraNIF($numeros) != $letra) {
-        return false;
-    }
-
-    return true;
-}
-
-function transaccionFoto($file, $uniqueID) {
     $nombre = $file['name'];
     $tmp_name = $file['tmp_name'];
     $error = $file['error'];
@@ -125,10 +67,10 @@ function transaccionFoto($file, $uniqueID) {
     return true;
 }
 
-require_once "config.php";
+require_once "sql/config.php";
 
-$error_nombre = $error_usuario = $error_clave = $error_dni = $error_foto = $error_edicion = false;
-$nombre = $clave = $usuario = $dni = $sexo = $foto = "";
+$error_titulo = $error_director = $error_sinopsis = $error_tematica = $error_caratula = $error_edicion = false;
+$titulo = $director = $sinopsis = $tematica = $caratula = "";
 
 
 if (isset($_GET['id']) && !empty(trim($_GET['id']))) {
@@ -139,17 +81,16 @@ if (isset($_GET['id']) && !empty(trim($_GET['id']))) {
     die("Algo salió mal. Por favor, inténtelo de nuevo más tarde.");
 }
 
-// Coger datos del usuario
-$sql = "SELECT * FROM usuarios WHERE id_usuario = $id";
+// Coger datos de la pelicula
+$sql = "SELECT * FROM peliculas WHERE id_pelicula = $id";
 if ($result = mysqli_query($link, $sql)) {
     if (mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-        $nombre = $row['nombre'];
-        $dni = $row['dni'];
-        $claveAntigua = $row['clave'];
-        $usuario = $row['usuario'];
-        $sexo = $row['sexo'];
-        $foto = $row['foto'];
+        $titulo = $row['titulo'];
+        $director = $row['director'];
+        $sinopsis = $row['sinopsis'];
+        $tematica = $row['tematica'];
+        $caratula = $row['caratula'];
     } else {
         die("Algo salió mal. Por favor, inténtelo de nuevo más tarde.");
     }
@@ -159,43 +100,48 @@ if ($result = mysqli_query($link, $sql)) {
 mysqli_free_result($result);
 
 if (isset($_POST['guardar'])) {
-    $nombre = $_POST['nombre'];
-    $clave = $_POST['clave'];
-    $usuario = $_POST['usuario'];
-    $dni = $_POST['dni'];
-    $sexo = $_POST['sexo'];
+    $titulo = $_POST['titulo'];
+    $director = $_POST['director'];
+    $sinopsis = $_POST['sinopsis'];
+    $tematica = $_POST['tematica'];
 
-    if (!comprobarNombre($nombre)) {
-        $error_nombre = true;
+    if (empty(trim($titulo))) {
+        $error_titulo = true;
     }
-    if (!comprobarUsuario($link, $usuario, $id)) {
-        $error_usuario = true;
+
+    if (empty(trim($director))) {
+        $error_director = true;
     }
-    if (!comprobarClave($link, $clave, $id)) {
-        $error_clave = true;
+
+    if (empty(trim($sinopsis))) {
+        $error_sinopsis = true;
     }
-    if (!comprobarDNI($dni)) {
-        $error_dni = true;
+
+    if (empty(trim($tematica))) {
+        $error_tematica = true;
     }
-    if (isset($_FILES['foto']) && !empty($_FILES['foto']['name'])) {
+
+    if (isset($_FILES['caratula']) && !empty($_FILES['caratula']['name'])) {
         $uniqueID = uniqid();
-        if (!transaccionFoto($_FILES['foto'], $uniqueID)) {
-            $error_foto = true;
+        if (!transaccionCaratula($_FILES['caratula'], $uniqueID)) {
+            $error_caratula = true;
         } else {
-            $foto = "img/".$uniqueID.".".pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+            $caratula = "img/" . $uniqueID . "." . pathinfo($_FILES['caratula']['name'], PATHINFO_EXTENSION);
         }
     }
 
-    if (!$error_nombre && !$error_clave && !$error_usuario && !$error_dni && !$error_foto) {
-        $clave = md5($clave);
-        if ($foto == "") {
-            $foto = "img/default.png";
-        }
+    if (!peliculaRepetida($link, $id, $titulo, $director)) {
+        if (!$error_titulo && !$error_director && !$error_sinopsis && !$error_tematica && !$error_caratula) {
 
-        if (editar($link, "usuarios", $id, $usuario, $clave, $nombre, $dni, $sexo, $foto)) {
-            header("location: index.php");
-        } else {
-            $error_edicion = true;
+            if ($caratula == "") {
+                $caratula = "img/default.png";
+            }
+
+            if (editar($link, "peliculas", $id, $titulo, $director, $sinopsis, $tematica, $caratula)) {
+                header("location: index.php");
+            } else {
+                $error_edicion = true;
+            }
         }
     }
 }
@@ -212,60 +158,54 @@ if (isset($_POST['guardar'])) {
 <body>
     <div class="centrar">
         <header>
-            <h1>Editando usuario <?php echo $id.PHP_EOL; ?></h1>
+            <h1>Editando pelicula <?php echo $id . PHP_EOL; ?></h1>
         </header>
         <main>
             <?php
             if ($error_edicion) {
-                echo "<span style='color:red;font-style: italic;'>Error al editar los datos, vuleve a intentarlo más tarde</span>";
+                echo "<span style='color:red;font-style: italic;'>Error al editar los datos, vuelve a intentarlo más tarde</span>";
             }
             ?>
             <form action="update.php" method="post" class="centrar" enctype="multipart/form-data">
 
-                <?php if ($error_nombre) { ?>
-                    <span style="color:red;font-style: italic;">El nombre debe tener al menos 3 caracteres.</span>
+                <?php if ($error_titulo) { ?>
+                    <span style="color:red;font-style: italic;">El titulo no es válido.</span>
                 <?php } ?>
                 <div class="input">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" value="<?php echo $nombre; ?>">
+                    <label for="titulo">Titulo</label>
+                    <input type="text" name="titulo" id="titulo" value="<?php echo $titulo; ?>">
                 </div>
 
-                <?php if ($error_usuario) { ?>
-                    <span style="color:red;font-style: italic;">El usuario ya existe o no es válido.</span>
+                <?php if ($error_director) { ?>
+                    <span style="color:red;font-style: italic;">El director no es válido.</span>
                 <?php } ?>
                 <div class="input">
-                    <label for="usuario">Usuario</label>
-                    <input type="text" name="usuario" id="usuario" value="<?php echo $usuario; ?>">
+                    <label for="director">Director</label>
+                    <input type="text" name="director" id="director" value="<?php echo $director; ?>">
                 </div>
 
-                <?php if ($error_clave) { ?>
-                    <span style="color:red;font-style: italic;">La clave debe tener al menos 8 caracteres.</span>
+                <?php if ($error_sinopsis) { ?>
+                    <span style="color:red;font-style: italic;">La sinopsis no es válida.</span>
                 <?php } ?>
                 <div class="input">
-                    <label for="clave">Clave</label>
-                    <input type="password" name="clave" id="clave" placeholder="Dejar en blanco si es igual">
+                    <label for="sinopsis">Sinopsis</label>
+                    <textarea name="sinopsis" id="sinopsis" cols="30" rows="10"><?php echo $sinopsis; ?></textarea>
                 </div>
 
-                <?php if ($error_dni) { ?>
-                    <span style="color:red;font-style: italic;">El DNI no es válido.</span>
+                <?php if ($error_tematica) { ?>
+                    <span style="color:red;font-style: italic;">La temática no es válida.</span>
                 <?php } ?>
                 <div class="input">
-                    <label for="dni">DNI</label>
-                    <input type="text" name="dni" id="dni" value="<?php echo $dni; ?>">
+                    <label for="tematica">Tematica</label>
+                    <input type="text" name="tematica" id="tematica" value="<?php echo $tematica; ?>">
                 </div>
 
-                <div class="input">
-                    <label for="sexo">Sexo:</label>
-                    <input type="radio" name="sexo" id="sexo" value="Hombre" checked>Hombre
-                    <input type="radio" name="sexo" id="sexo" value="Mujer">Mujer
-                </div>
-
-                <?php if ($error_foto) { ?>
-                    <span style="color:red;font-style: italic;">La foto no es válida.</span>
+                <?php if ($error_caratula) { ?>
+                    <span style="color:red;font-style: italic;">La carátula no es válida.</span>
                 <?php } ?>
                 <div class="input">
-                    <label for="foto">Incluir mi foto(no seleccionar ninguna si es la misma):</label><br>
-                    <input type="file" name="foto" id="foto" value="<?php echo $foto; ?>">
+                    <label for="caratula">Caratula:</label>
+                    <input type="file" name="caratula" id="caratula" value="<?php echo $caratula; ?>">
                 </div>
 
                 <div class="input">
