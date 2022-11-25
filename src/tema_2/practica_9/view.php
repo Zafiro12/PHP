@@ -1,7 +1,7 @@
 <?php
 function seleccionar($link, $tabla, $id)
 {
-    $sql = "SELECT * FROM $tabla WHERE id_usuario = $id";
+    $sql = "SELECT * FROM $tabla WHERE id_pelicula = $id";
     if ($result = mysqli_query($link, $sql)) {
         if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -22,7 +22,7 @@ function verSeleccionado($link, $tabla, $id)
     if ($row) {
         echo "<table>";
         foreach ($row as $key => $value) {
-            if ($key == "foto") {
+            if ($key == "caratula") {
                 echo "<tr><td>$key</td><td><img src='$value' width='100px'></td></tr>";
             } else {
                 echo "<tr><td>$key</td><td>$value</td></tr>";
@@ -40,20 +40,20 @@ function verSeleccionado($link, $tabla, $id)
 
 <head>
     <meta charset="UTF-8">
-    <title>Ver usuario</title>
+    <title>Ver pelicula</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>
     <div class="centrar">
-        <h1>Ver usuario</h1>
+        <h1>Ver pelicula</h1>
         <?php
         // Incluir archivo de configuracion
-        require_once "config.php";
+        require_once "sql/config.php";
 
         if (isset($_GET['id']) && !empty(trim($_GET['id']))) {
             $id = $_GET['id'];
-            verSeleccionado($link, "usuarios", $id);
+            verSeleccionado($link, "peliculas", $id);
         } else {
             echo "Algo salió mal. Por favor, inténtelo de nuevo más tarde.";
         }

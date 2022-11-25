@@ -1,19 +1,17 @@
 <?php
 function eliminar($link, $tabla, $id)
 {
-    $sql = "SELECT foto FROM $tabla WHERE id_usuario = $id";
+    $sql = "SELECT foto FROM $tabla WHERE id_pelicula = $id";
     if ($result = mysqli_query($link, $sql)) {
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_array($result);
-            if ($row['foto'] != "img/default.png") {
+            if ($row['caratula'] != "img/default.png") {
                 unlink($row['foto']);
             }
         }
     }
-
-    mysqli_free_result($result);
     
-    $sql = "DELETE FROM $tabla WHERE id_usuario = $id";
+    $sql = "DELETE FROM $tabla WHERE id_pelicula = $id";
     if (mysqli_query($link, $sql)) {
         return true;
     } else {
@@ -22,9 +20,9 @@ function eliminar($link, $tabla, $id)
 }
 if (isset($_POST['id']) && !empty(trim($_POST['id']))) {
     // Incluir archivo de configuracion
-    require_once "config.php";
+    require_once "sql/config.php";
     $id = $_POST['id'];
-    if (eliminar($link, "usuarios", $id)) {
+    if (eliminar($link, "peliculas", $id)) {
         header("location: index.php");
         exit();
     } else {
@@ -37,13 +35,13 @@ if (isset($_POST['id']) && !empty(trim($_POST['id']))) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Eliminar usuario</title>
+    <title>Eliminar pelicula</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>
     <div class="centrar">
-        <h1>Eliminar usuario <?php echo trim($_GET["id"]).PHP_EOL; ?> ?</h1>
+        <h1>Eliminar pelicula <?php echo trim($_GET["id"]).PHP_EOL; ?> ?</h1>
         <form action="delete.php" method="post">
             <input type="hidden" name="id" value="<?php echo trim($_GET["id"]); ?>" />
             <h3>Estás seguro de que quieres eliminar este registro?</h3>
