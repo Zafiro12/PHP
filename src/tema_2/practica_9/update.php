@@ -205,6 +205,7 @@ if (isset($_POST['guardar'])) {
                 <?php } ?>
                 <div class="input">
                     <label for="caratula">Caratula:</label>
+                    <img src="<?php echo $caratula ?>" alt="caratula" height="100px" title="caratula"><br><br>
                     <input type="file" name="caratula" id="caratula" value="<?php echo $caratula; ?>">
                 </div>
 
