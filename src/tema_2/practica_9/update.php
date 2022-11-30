@@ -60,7 +60,7 @@ function transaccionCaratula($file, $uniqueID)
     }
 
     $destino = "img/$uniqueID.$extension";
-    if (!move_uploaded_file($tmp_name, $destino)) {
+    if (!@move_uploaded_file($tmp_name, $destino)) {
         return false;
     }
 

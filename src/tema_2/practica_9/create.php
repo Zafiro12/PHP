@@ -135,14 +135,14 @@ if (isset($_POST['insertar'])) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Insertar usuario</title>
+    <title>Insertar pelicula</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>
     <div class="centrar">
         <header>
-            <h1>Insertar usuario</h1>
+            <h1>Insertar pelicula</h1>
         </header>
         <main>
             <?php

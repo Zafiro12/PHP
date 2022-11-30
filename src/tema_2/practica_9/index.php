@@ -47,7 +47,7 @@ function visualizarDatos($link, $tabla, ...$columnas)
 
             echo "</table>";
         } else {
-            echo "<span style='color:red;font-style: italic;'>No hay registros.<span>";
+            echo "<span style='color:red;font-style: italic;'>No hay registros.<span><br><a href='create.php'>Añadir pelicula</a>";
         }
     } else {
         echo "ERROR: No se pudo ejecutar $sql. " . mysqli_error($link);
