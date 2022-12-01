@@ -46,7 +46,12 @@ function entablarHorario($link, $id_usuario)
     }
     mysqli_free_result($result);
 
-    $tabla = "<h3>Horario del profesor nº" . $_SESSION['id_usuario'] . "</h3>";
+    $sql = "SELECT nombre FROM usuarios WHERE id_usuario = $id_usuario";
+    $result = mysqli_query($link, $sql);
+    $nombre = mysqli_fetch_assoc($result)['nombre'];
+    mysqli_free_result($result);
+
+    $tabla = "<h3>Horario del profesor " . $nombre . "</h3>";
     $arrayHoras = array("8:15 - 9:15", "9:15 - 10:15", "10:15 - 11:15", "11:15 - 11:45", "11:45 - 12:45", "12:45 - 13:45", "13:45 - 14:45");
 
     if ($aux) {
