@@ -1,6 +1,30 @@
 <?php
 session_start();
+
+if (isset($_POST['usuario'])) {
+    session_destroy();
+    session_start();
+    $_SESSION['id_usuario'] = $_POST['usuario'];
+}
+
+if (isset($_GET['dia']) && isset($_GET['hora'])) {
+    $_SESSION['dia'] = $_GET['dia'];
+    $_SESSION['hora'] = $_GET['hora'];
+}
+
 require_once 'src/config.php';
+
+if (isset($_GET['dia']) && isset($_GET['hora']) && isset($_GET['grupo'])) {
+    // Eliminar de la base de datos horario_lectivo
+    $sql = "DELETE FROM horario_lectivo WHERE dia = '" . $_GET['dia'] . "' AND hora = '" . $_GET['hora'] . "' AND grupo = '" . $_GET['grupo'] . "'";
+    $accionExitosa = mysqli_query($link, $sql);
+}
+
+if (isset($_POST['dia']) && isset($_POST['hora']) && isset($_POST['grupo'])) {
+    // Añadir a la base de datos horario_lectivo
+    $sql = "INSERT INTO horario_lectivo (usuario, dia, hora, grupo, aula) VALUES ('" . $_SESSION['id_usuario'] . "', '" . $_POST['dia'] . "', '" . $_POST['hora'] . "', '" . $_POST['grupo'] . "', 'Aula no especificada')";
+    $accionExitosa = mysqli_query($link, $sql);
+}
 
 function entablarHorario($link, $id_usuario)
 {
@@ -42,14 +66,14 @@ function entablarHorario($link, $id_usuario)
 
                             if ($result = mysqli_query($link, $sql)) {
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $tabla .= " ".$row['nombre'];
+                                    $tabla .= " " . $row['nombre'];
                                 }
                                 mysqli_free_result($result);
                             }
                         }
-                        $tabla .= "<br><a href='#'>Editar</a></td>";
+                        $tabla .= "<br><a href='index.php?dia=$j&hora=$i'>Editar</a></td>";
                     } else {
-                        $tabla .= "<td><a href='#'>Editar</a></td>";
+                        $tabla .= "<td><a href='index.php?dia=$j&hora=$i'>Añadir</a></td>";
                     }
                 }
             }
@@ -61,12 +85,6 @@ function entablarHorario($link, $id_usuario)
     }
 
     return $tabla;
-}
-
-
-
-if (isset($_POST['usuario'])) {
-    $_SESSION['id_usuario'] = $_POST['usuario'];
 }
 
 ?>
@@ -103,7 +121,49 @@ if (isset($_POST['usuario'])) {
     </form>
     <?php
     echo entablarHorario($link, $_SESSION['id_usuario']);
+
+    if (isset($_SESSION['dia']) && isset($_SESSION['hora'])) {
+        $dia = $_SESSION['dia'];
+        $hora = $_SESSION['hora'];
+        if ($_SESSION['hora'] < 3) {
+            $horaBonita = $_SESSION['hora'] + 1;
+        } else {
+            $horaBonita = $_SESSION['hora'];
+        }
+        $diasLetras = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
+
+        echo "<h3>Editando la " . $horaBonita . "ª hora del " . $diasLetras[$dia - 1] . "</h3>";
+        if (isset($accionExitosa) && $accionExitosa) {
+            echo "<p>Acción realizada con éxito</p>";
+        } else if (isset($accionExitosa) && !$accionExitosa) {
+            echo "<p>Ha habido un error</p>";
+        }
+        echo "<table border='1' style='text-align: center;'>";
+        echo "<tr><th>Grupo</th><th>Accion</th></tr>";
+        // la unica accion que se puede hacer es quitar el grupo. Puede haber mas de un grupo en una hora. Coger solo el nombre de cada grupo
+        $sql = "SELECT * FROM grupos WHERE id_grupo IN (SELECT grupo FROM horario_lectivo WHERE usuario = " . $_SESSION['id_usuario'] . " AND dia = $dia AND hora = $hora)";
+        $result = mysqli_query($link, $sql);
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr><td>" . $row['nombre'] . "</td><td><a href='index.php?dia=$dia&hora=$hora&grupo=" . $row['id_grupo'] . "'>Quitar</a></td></tr>";
+        }
+        
+        mysqli_free_result($result);
+        echo "</table>";
+
+        echo "<form action='index.php' method='post'>";
+        echo "<label for='grupo'>Añadir grupo:</label>";
+        echo "<select name='grupo' id='grupo'>";
+        $sql = "SELECT * FROM grupos WHERE id_grupo NOT IN (SELECT grupo FROM horario_lectivo WHERE usuario = " . $_SESSION['id_usuario'] . " AND dia = $dia AND hora = $hora)";
+        $result = mysqli_query($link, $sql);
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<option value='" . $row['id_grupo'] . "'>" . $row['nombre'] . "</option>";
+        }
+        mysqli_free_result($result);
+        echo "</select>";
+        echo "<input type='hidden' name='dia' value='$dia'>";
+        echo "<input type='hidden' name='hora' value='$hora'>";
+        echo "<input type='submit' value='Añadir'>";
+    }
     ?>
 </body>
-
 </html>
