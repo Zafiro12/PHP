@@ -14,9 +14,9 @@ if (isset($_GET['dia']) && isset($_GET['hora'])) {
 
 require_once 'src/config.php';
 
-if (isset($_GET['dia']) && isset($_GET['hora']) && isset($_GET['grupo'])) {
+if (isset($_GET['id_horario'])) {
     // Eliminar de la base de datos horario_lectivo
-    $sql = "DELETE FROM horario_lectivo WHERE dia = '" . $_GET['dia'] . "' AND hora = '" . $_GET['hora'] . "' AND grupo = '" . $_GET['grupo'] . "'";
+    $sql = "DELETE FROM horario_lectivo WHERE id_horario = '" . $_GET['id_horario'] . "'";
     $accionExitosa = mysqli_query($link, $sql);
 }
 
@@ -33,12 +33,12 @@ function entablarHorario($link, $id_usuario)
     $result = mysqli_query($link, $sql);
     $horario = array();
     $aux = true;
-    if (mysqli_num_rows($result) > 0) {
+    if (mysqli_num_rows($result) > 0) { // LA HORA VA DESDE 1 A 7
         while ($row = mysqli_fetch_assoc($result)) {
-            if (isset($horario[$row['dia']][$row['hora']])) {
-                $horario[$row['dia']][$row['hora']] .= " " . $row['grupo'];
+            if (isset($horario[$row['dia']][$row['hora']-1])) {
+                @$horario[$row['dia']][$row['hora']-1] .= " " . $row['grupo'];
             } else {
-                $horario[$row['dia']][$row['hora']] = $row['grupo'];
+                $horario[$row['dia']][$row['hora']-1] = $row['grupo'];
             }
         }
     } else {
@@ -125,11 +125,13 @@ function entablarHorario($link, $id_usuario)
         <input type="submit" value="Ver horario">
     </form>
     <?php
-    echo entablarHorario($link, $_SESSION['id_usuario']);
-
+    if (isset($_SESSION['id_usuario'])) {
+        echo entablarHorario($link, $_SESSION['id_usuario']);
+    }
+    
     if (isset($_SESSION['dia']) && isset($_SESSION['hora'])) {
         $dia = $_SESSION['dia'];
-        $hora = $_SESSION['hora'];
+        $hora = $_SESSION['hora']+1;
         if ($_SESSION['hora'] < 3) {
             $horaBonita = $_SESSION['hora'] + 1;
         } else {
@@ -145,11 +147,11 @@ function entablarHorario($link, $id_usuario)
         }
         echo "<table border='1' style='text-align: center;'>";
         echo "<tr><th>Grupo</th><th>Accion</th></tr>";
-        // la unica accion que se puede hacer es quitar el grupo. Puede haber mas de un grupo en una hora. Coger solo el nombre de cada grupo
-        $sql = "SELECT * FROM grupos WHERE id_grupo IN (SELECT grupo FROM horario_lectivo WHERE usuario = " . $_SESSION['id_usuario'] . " AND dia = $dia AND hora = $hora)";
+        // coger nombre de la tabla grupos y id_horario de la tabla horario_lectivo
+        $sql = "SELECT grupos.nombre, horario_lectivo.id_horario FROM grupos INNER JOIN horario_lectivo ON grupos.id_grupo = horario_lectivo.grupo WHERE horario_lectivo.dia = $dia AND horario_lectivo.hora = $hora AND horario_lectivo.usuario = " . $_SESSION['id_usuario'];
         $result = mysqli_query($link, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr><td>" . $row['nombre'] . "</td><td><a href='index.php?dia=$dia&hora=$hora&grupo=" . $row['id_grupo'] . "'>Quitar</a></td></tr>";
+            echo "<tr><td>" . $row['nombre'] . "</td><td><a href='index.php?id_horario=" . $row['id_horario'] . "'>Quitar</a></td></tr>";
         }
         
         mysqli_free_result($result);
