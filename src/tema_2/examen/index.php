@@ -28,7 +28,7 @@ session_start();
 
 <body>
     <?php
-    @$link = mysqli_connect("localhost", "jose", "josefa", "bd_exam_colegio");
+    @$link = mysqli_connect("db", "jose", "josefa", "bd_exam_colegio");
     if (!$link) {
         echo "<h1>Error: No se pudo conectar a MySQL.</h1>" . PHP_EOL;
         echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
