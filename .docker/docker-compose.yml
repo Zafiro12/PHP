@@ -2,27 +2,29 @@ version: '3'
 
 services:
     apache2:
+        container_name: server
         build:
             context: .
-            dockerfile: .docker/php/Dockerfile
+            dockerfile: php/Dockerfile
         environment:
             XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9003 remote_enable=1
         ports:
             - 80:80
         volumes:
-            - ./src:/var/www/html
-            - .docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-            - .docker/php/conf/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
-            - .docker/php/conf/docker-php.conf:/etc/apache2/conf-available/docker-php.conf
+            - ../src:/var/www/html
+            - ./php/conf/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+            - ./php/conf/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+            - ./php/conf/docker-php.conf:/etc/apache2/conf-available/docker-php.conf
 
         restart: always
         extra_hosts:
         - "host.docker.internal:host-gateway"
     
     db:
+        container_name: db
         build: 
             context: .
-            dockerfile: .docker/mysql/Dockerfile
+            dockerfile: mysql/Dockerfile
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: root
@@ -37,6 +39,7 @@ services:
     
 
     phpmyadmin:
+        container_name: phpmyadmin
         image: phpmyadmin:latest
         restart: always
         ports:
