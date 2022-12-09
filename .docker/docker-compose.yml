@@ -1,5 +1,7 @@
 version: '3'
 
+name: php
+
 services:
     apache2:
         container_name: server
