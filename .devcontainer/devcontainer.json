@@ -20,13 +20,18 @@
 			"extensions": [
 				"xdebug.php-debug",
 				"bmewburn.vscode-intelephense-client",
-				"mrmlnc.vscode-apache"
+				"tomoki1207.pdf",
+				"github.copilot",
+				"github.copilot-labs",
+				"visualstudioexptteam.vscodeintel",
+				"visualstudioexptteam.intellicode-api-usage-examples",
+				"formulahendry.auto-rename-tag"
 			]
 		}
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [8080]
+	"forwardPorts": [8080, 9003]
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
