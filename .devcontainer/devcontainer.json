@@ -2,12 +2,15 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/php
 {
 	"name": "PHP",
-	"image": "mcr.microsoft.com/devcontainers/php:0-8.1-bullseye",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "php",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker": "stable"
-	},
+	// "features": {},
+
+	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
+	//"forwardPorts": [80],
 
 	// Configure tool-specific properties.
 	"customizations": {
@@ -30,14 +33,7 @@
 				"formulahendry.auto-rename-tag"
 			]
 		}
-	},
+	}
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	//"postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	"remoteUser": "root"
+	//"remoteUser": "root"
 }
