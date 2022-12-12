@@ -13,10 +13,7 @@ services:
         ports:
             - 80:80
         volumes:
-            - ../src:/var/www/html
-            - ./php/conf/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-            - ./php/conf/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
-            - ./php/conf/docker-php.conf:/etc/apache2/conf-available/docker-php.conf
+            - ${PWD}/src:/var/www/html
 
         restart: always
         extra_hosts:
@@ -48,4 +45,4 @@ services:
             - 8080:80
 
 volumes:
-  db_data:
+    db_data:
