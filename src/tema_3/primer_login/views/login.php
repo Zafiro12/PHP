@@ -22,6 +22,8 @@ if (isset($_POST['email']) && isset($_POST['clave'])) {
         } else {
             $error_clave = true;
         }
+    } else {
+        $error_email = true;
     }
 }
 ?>
