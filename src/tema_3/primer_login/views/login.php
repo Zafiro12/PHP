@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 // *ERRORES
 $error_email = false;
 $error_clave = false;
@@ -9,7 +7,7 @@ if (isset($_POST['email']) && isset($_POST['clave'])) {
     $email = $_POST['email'];
     $clave = $_POST['clave'];
 
-    require_once "../assets/config.php";
+    require_once "assets/config.php";
 
     $sql = "SELECT email,clave FROM usuarios WHERE email ='$email'";
     $resultado = mysqli_query($link, $sql);
@@ -18,7 +16,8 @@ if (isset($_POST['email']) && isset($_POST['clave'])) {
         $fila = mysqli_fetch_assoc($resultado);
         if (md5($clave) == $fila['clave']) {
             $_SESSION['email'] = $email;
-            header("Location: ../index.php");
+            header("Location: index.php");
+            exit;
         } else {
             $error_clave = true;
         }
@@ -67,7 +66,7 @@ if (isset($_POST['email']) && isset($_POST['clave'])) {
 </head>
 
 <body>
-    <form action="login.php" method="post">
+    <form action="index.php" method="post">
         <h2>Login</h2>
 
         <div class="input">
@@ -75,11 +74,11 @@ if (isset($_POST['email']) && isset($_POST['clave'])) {
             <?php if ($error_email) : ?>
                 <span style="color: red;">El email no existe</span>
             <?php endif; ?>
-            <input type="text" name="email" id="email" placeholder="Email" required <?php
-                                                                                    if (isset($_POST['email'])) {
-                                                                                        echo "value='" . $_POST['email'] . "'";
-                                                                                    }
-                                                                                    ?>>
+            <input type="text" name="email" id="email" placeholder="Email" <?php
+                                                                            if (isset($_POST['email'])) {
+                                                                                echo "value='" . $_POST['email'] . "'";
+                                                                            }
+                                                                            ?>>
         </div>
 
         <div class="input">
@@ -91,7 +90,7 @@ if (isset($_POST['email']) && isset($_POST['clave'])) {
 
         <div>
             <input type="submit" value="Login">
-            <input type="submit" value="Registrarse" formaction="register.php">
+            <input type="submit" name="registro" value="Registrarse">
         </div>
     </form>
 </body>
