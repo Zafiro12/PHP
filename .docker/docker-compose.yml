@@ -1,63 +1,51 @@
-version: '3.8'
+version: '3'
 
 name: php
 
 services:
-    php:
-        container_name: php
+    apache2:
+        container_name: server
         build:
             context: .
             dockerfile: php/Dockerfile
-        
         environment:
             XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9003 remote_enable=1
-        
-        volumes:
-            - ../.:/workspaces/PHP
-            - ../src:/var/www/html 
-        
         ports:
             - 80:80
+        volumes:
+            - ../src:/var/www/html
+            - ./php/conf/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+            - ./php/conf/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+            - ./php/conf/docker-php.conf:/etc/apache2/conf-available/docker-php.conf
 
-        # Overrides default command so things don't shut down after the process ends.
-        # command: sleep infinity
-        
-        # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
-        # network_mode: service:db
+        restart: always
+        extra_hosts:
+        - "host.docker.internal:host-gateway"
     
     db:
         container_name: db
-
         build: 
             context: .
             dockerfile: mysql/Dockerfile
-
         restart: always
-
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_USER: jose
             MYSQL_PASSWORD: josefa
-
         hostname: db
-
         ports:
             - 3306:3306
             - 33060:33060
-
         volumes:
             - db_data:/var/lib/mysql
     
 
     phpmyadmin:
         container_name: phpmyadmin
-
         image: phpmyadmin:latest
-
         restart: always
-        
         ports:
             - 8080:80
 
 volumes:
-    db_data:
+  db_data:
