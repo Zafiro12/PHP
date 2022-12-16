@@ -9,13 +9,14 @@ if (isset($_POST['email']) && isset($_POST['clave'])) {
 
     require_once "assets/config.php";
 
-    $sql = "SELECT email,clave FROM usuarios WHERE email ='$email'";
+    $sql = "SELECT email,clave,administrador FROM usuarios WHERE email ='$email'";
     $resultado = mysqli_query($link, $sql);
 
     if (mysqli_num_rows($resultado) != 0) {
         $fila = mysqli_fetch_assoc($resultado);
         if (md5($clave) == $fila['clave']) {
             $_SESSION['email'] = $email;
+            $_SESSION['administrador'] = $fila['administrador'];
             header("Location: index.php");
             exit;
         } else {
