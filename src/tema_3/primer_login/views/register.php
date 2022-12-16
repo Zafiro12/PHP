@@ -53,33 +53,68 @@ if (isset($_POST['registrarse'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+
+            height: 50vh;
+
+            padding: 1rem;
+            margin: 1rem;
+        }
+
+        .input {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Registro</h1>
     <form action="index.php" method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" id="nombre"> 
-        <?php if ($error_nombre) echo "<span style='color:red'>El nombre no puede estar vacío</span>"; ?>
-        <br><br>
+        <h2>Registro</h2>
 
-        <label for="usuario">Usuario</label>
-        <input type="text" name="usuario" id="usuario"> 
-        <?php if ($error_usuario) echo "<span style='color:red'>El usuario no puede estar vacío o ya existe</span>"; ?>
-        <br><br>
+        <div class="input">
+            <?php if ($error_nombre) echo "<span style='color:red'>El nombre no puede estar vacío</span>"; ?>
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" id="nombre">
+        </div>
 
-        <label for="clave">Clave</label>
-        <input type="password" name="clave" id="clave" minlength="8"> 
-        <?php if ($error_clave) echo "<span style='color:red'>La clave no puede estar vacía</span>"; ?>
-        <br><br>
+        <div class="input">
+            <?php if ($error_usuario) echo "<span style='color:red'>El usuario no puede estar vacío o ya existe</span>"; ?>
+            <label for="usuario">Usuario</label>
+            <input type="text" name="usuario" id="usuario">
+        </div>
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email"> 
-        <?php if ($error_email) echo "<span style='color:red'>El email no puede estar vacío o no es válido</span>"; ?>
-        <br><br>
-        
-        <input type="submit" name="registrarse" value="Registrarse">
-        <input type="submit" formaction="index.php?salir=true" value="Volver">
+        <div class="input">
+            <?php if ($error_clave) echo "<span style='color:red'>La clave no puede estar vacía</span>"; ?>
+            <label for="clave">Clave</label>
+            <input type="password" name="clave" id="clave" minlength="8">
+        </div>
+
+        <div class="input">
+            <?php if ($error_email) echo "<span style='color:red'>El email no puede estar vacío o no es válido</span>"; ?>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email">
+        </div>
+
+        <div>
+            <input type="submit" name="registrarse" value="Registrarse">
+            <input type="submit" formaction="index.php?salir=true" value="Volver">
+        </div>
     </form>
 </body>
 
