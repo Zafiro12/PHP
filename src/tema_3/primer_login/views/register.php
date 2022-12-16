@@ -90,25 +90,25 @@ if (isset($_POST['registrarse'])) {
         <div class="input">
             <?php if ($error_nombre) echo "<span style='color:red'>El nombre no puede estar vacío</span>"; ?>
             <label for="nombre">Nombre:</label>
-            <input type="text" name="nombre" id="nombre">
+            <input type="text" name="nombre" id="nombre" value="<?php if (isset($_POST['nombre'])) echo $_POST['nombre']; ?>" autofocus>
         </div>
 
         <div class="input">
             <?php if ($error_usuario) echo "<span style='color:red'>El usuario no puede estar vacío o ya existe</span>"; ?>
             <label for="usuario">Usuario</label>
-            <input type="text" name="usuario" id="usuario">
+            <input type="text" name="usuario" id="usuario" value="<?php if (isset($_POST['usuario'])) echo $_POST['usuario']; ?>">
         </div>
 
         <div class="input">
             <?php if ($error_clave) echo "<span style='color:red'>La clave no puede estar vacía</span>"; ?>
             <label for="clave">Clave</label>
-            <input type="password" name="clave" id="clave" minlength="8">
+            <input type="password" name="clave" id="clave">
         </div>
 
         <div class="input">
             <?php if ($error_email) echo "<span style='color:red'>El email no puede estar vacío o no es válido</span>"; ?>
             <label for="email">Email:</label>
-            <input type="email" name="email" id="email">
+            <input type="email" name="email" id="email" value="<?php if (isset($_POST['email'])) echo $_POST['email']; ?>">
         </div>
 
         <div>
