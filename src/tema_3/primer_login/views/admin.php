@@ -1,7 +1,7 @@
 <?php
 function visualizarDatos($link, $tabla, ...$columnas)
 {
-    $sql = "SELECT * FROM $tabla";
+    $sql = "SELECT * FROM $tabla WHERE administrador = 0"; // !Cambiar sql si es necesario
     if ($result = mysqli_query($link, $sql)) {
         if (mysqli_num_rows($result) > 0) {
             echo "<table>";
@@ -28,15 +28,15 @@ function visualizarDatos($link, $tabla, ...$columnas)
                 echo "<tr>";
                 foreach ($columnas as $col) {
                     if ($col == "usuario") { // !Cambiar columna de vista si es necesario
-                        echo "<td><a href='view.php?id=$id'>" . $row[$col] . "</a></td>";
+                        echo "<td><a href='index.php?id=$id&ver=1'>" . $row[$col] . "</a></td>";
                     } else {
                         echo "<td>" . $row[$col] . "</td>";
                     }
                 }
                 echo "<td>";
-                echo "<a href='index.php?id=$id&&editar=1'>Editar</a>";
+                echo "<a href='index.php?id=$id&editar=1'>Editar</a>";
                 echo " || ";
-                echo "<a href='index.php?id=$id&&borrar=1'>Borrar</a>";
+                echo "<a href='index.php?id=$id&borrar=1'>Borrar</a>";
                 echo "</td>";
                 echo "</tr>";
             }
