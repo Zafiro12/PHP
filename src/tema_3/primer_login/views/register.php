@@ -15,12 +15,12 @@ if (isset($_POST['registrarse'])) {
 
     // *** EMAIL ***
     $sql = "SELECT * FROM usuarios WHERE email = '" . $_POST['email'] . "'";
-    $result = mysqli_query($link, $sql) or die("<p>Imposible ejecutar la consulta. Error número " . mysqli_errno($link) . ": " . mysqli_error($link) . "</p><a href='index.php?salir=true'>Volver</a>");
+    $result = mysqli_query($link, $sql) or die("<p>Imposible ejecutar la consulta. Error número " . mysqli_errno($link) . ": " . mysqli_error($link) . "</p><a href='index.php?salir=1'>Volver</a>");
     $error_email = empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) || mysqli_num_rows($result) > 0;
 
     // *** USUARIO ***
     $sql = "SELECT * FROM usuarios WHERE usuario = '" . $_POST['usuario'] . "'";
-    $result = mysqli_query($link, $sql) or die("<p>Imposible ejecutar la consulta. Error número " . mysqli_errno($link) . ": " . mysqli_error($link) . "</p><a href='index.php?salir=true'>Volver</a>");
+    $result = mysqli_query($link, $sql) or die("<p>Imposible ejecutar la consulta. Error número " . mysqli_errno($link) . ": " . mysqli_error($link) . "</p><a href='index.php?salir=1'>Volver</a>");
     $error_usuario = mysqli_num_rows($result) > 0 || empty($_POST['usuario']);
 
     $error_registro = $error_nombre || $error_clave || $error_email || $error_usuario;
@@ -39,7 +39,7 @@ if (isset($_POST['registrarse'])) {
             header("Location: index.php");
         } else {
             echo "Error al insertar el usuario";
-            echo "<a href='index.php?salir=true'>Volver</a>";
+            echo "<a href='index.php?salir=1'>Volver</a>";
         }
     }
 }
@@ -90,30 +90,30 @@ if (isset($_POST['registrarse'])) {
         <div class="input">
             <?php if ($error_nombre) echo "<span style='color:red'>El nombre no puede estar vacío</span>"; ?>
             <label for="nombre">Nombre:</label>
-            <input type="text" name="nombre" id="nombre">
+            <input type="text" name="nombre" id="nombre" value="<?php if (isset($_POST['nombre'])) echo $_POST['nombre']; ?>" autofocus>
         </div>
 
         <div class="input">
             <?php if ($error_usuario) echo "<span style='color:red'>El usuario no puede estar vacío o ya existe</span>"; ?>
             <label for="usuario">Usuario</label>
-            <input type="text" name="usuario" id="usuario">
+            <input type="text" name="usuario" id="usuario" value="<?php if (isset($_POST['usuario'])) echo $_POST['usuario']; ?>">
         </div>
 
         <div class="input">
             <?php if ($error_clave) echo "<span style='color:red'>La clave no puede estar vacía</span>"; ?>
             <label for="clave">Clave</label>
-            <input type="password" name="clave" id="clave" minlength="8">
+            <input type="password" name="clave" id="clave">
         </div>
 
         <div class="input">
             <?php if ($error_email) echo "<span style='color:red'>El email no puede estar vacío o no es válido</span>"; ?>
             <label for="email">Email:</label>
-            <input type="email" name="email" id="email">
+            <input type="email" name="email" id="email" value="<?php if (isset($_POST['email'])) echo $_POST['email']; ?>">
         </div>
 
         <div>
             <input type="submit" name="registrarse" value="Registrarse">
-            <input type="submit" formaction="index.php?salir=true" value="Volver">
+            <input type="submit" formaction="index.php?salir=1" value="Volver">
         </div>
     </form>
 </body>
