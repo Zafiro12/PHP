@@ -97,6 +97,47 @@ mysqli_free_result($resultado);
         <input type="submit" value="Buscar">
         <input type="submit" name="limpiar" value="Limpiar">
     </form>
+    <form action="index.php" method="get">
+        <?php
+
+        if ($pagina > 1) {
+            echo "<button type='submit' name='pagina' value='1'><<</button>";
+            echo "<button type='submit' name='pagina' value='" . ($pagina - 1) . "'><</button>";
+        }
+
+        $max_paginas = 4;
+        $inicio = 1;
+        $fin = $num_paginas;
+
+        if ($num_paginas > $max_paginas) {
+            $inicio = $pagina - floor($max_paginas / 2);
+            $fin = $pagina + floor($max_paginas / 2);
+
+            if ($inicio < 1) {
+                $inicio = 1;
+                $fin = $max_paginas;
+            }
+
+            if ($fin > $num_paginas) {
+                $inicio = $num_paginas - $max_paginas + 1;
+                $fin = $num_paginas;
+            }
+        }
+
+        for ($i = $inicio; $i <= $fin; $i++) {
+            if ($i == $pagina) {
+                echo "<button type='submit' name='pagina' value='$i' disabled>$i</button>";
+            } else {
+                echo "<button type='submit' name='pagina' value='$i'>$i</button>";
+            }
+        }
+
+        if ($pagina < $num_paginas) {
+            echo "<button type='submit' name='pagina' value='" . ($pagina + 1) . "'>></button>";
+            echo "<button type='submit' name='pagina' value='$num_paginas'>>></button>";
+        }
+        ?>
+    </form>
 
     <?php
     if (isset($_SESSION['buscar']) && $_SESSION['buscar'] != "") {
