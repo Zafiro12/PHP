@@ -20,11 +20,13 @@ class Empleado
         return $this->sueldo;
     }
 
-    public function setNombre($nombre) {
+    public function setNombre($nombre)
+    {
         $this->nombre = $nombre;
     }
 
-    public function setSueldo($sueldo) {
+    public function setSueldo($sueldo)
+    {
         $this->nombre = $sueldo;
     }
 
