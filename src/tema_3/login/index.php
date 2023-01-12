@@ -34,7 +34,7 @@
 
             if ($sentencia->rowCount()>0)
             {
-                
+                // TODO $datos_usuario = ;
             }
         }
         catch(PDOException $e)
