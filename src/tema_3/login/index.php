@@ -1,3 +1,56 @@
+<?php
+    require_once("sql/config.php");
+
+    if (isset($_POST["login"]))
+    {
+        $error_usuario = $_POST["usuario"] == "";
+        $error_clave = $_POST["clave"] == "";
+        $error_form = $error_usuario || $error_clave;
+
+        if (!$error_form)
+        {
+            try
+            {
+                $conn = new PDO("mysql:host=".DB_SERVER.";dbname=".DB_NAME, DB_USERNAME, DB_PASSWORD);
+                
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                echo "Connected successfully"; 
+            }
+            catch(PDOException $e)
+            {
+                die("Connection failed: " . $e->getMessage());
+            }
+
+            try
+            {
+                $consulta = "select * from usuarios where usuario=? and clave=?";
+                $sentencia=$conexion->prepare($consulta);
+
+                $datos[]=$_POST["usuario"];
+                $datos[]=md5($_POST["clave"]);
+
+                $sentencia->execute($datos);
+
+                if ($sentencia->rowCount()>0)
+                {
+
+                }
+                else
+                {
+                    $error_usuario = true;
+                }
+            }
+            catch(PDOException $e)
+            {
+                $sentencia=null;
+                $conexion=null;
+                die("Connection failed: " . $e->getMessage());
+            }
+        }
+    }
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -14,12 +67,24 @@
     <form action="index.php" method="post">
         <div>
             <label for="usuario">Usuario:</label>
-            <input type="text" name="usuario" id="usuario" />
+            <input type="text" name="usuario" id="usuario" value="<?php if (isset($_POST["usuario"])) echo $_POST["usuario"]; ?>" />
+            <?php
+                if (isset($_POST["usuario"]) && $error_usuario)
+                {
+                    echo "<span style='color: red;'>*Campo vacío</span>";
+                }
+            ?>
         </div>
 
         <div>
             <label for="clave">Contraseña:</label>
             <input type="password" name="clave" id="clave" />
+            <?php
+                if (isset($_POST["clave"]) && $error_clave)
+                {
+                    echo "<span style='color: red;'>*Campo vacío</span>";
+                }
+            ?>
         </div>
 
         <div>
