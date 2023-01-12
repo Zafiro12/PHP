@@ -2,7 +2,7 @@
     session_name("login");
     session_start();
 
-    require_once("sql/config.php");
+    require_once("views/config.php");
 
 
     function error_page($error_message) {
@@ -22,7 +22,26 @@
 
     if (isset($_SESSION["usuario"]))
     {
-        echo "Logeado";
+        try
+        {
+            $consulta = "select * from usuarios where usuario=? and clave=?";
+            $sentencia=$conexion->prepare($consulta);
+
+            $datos[]=$_SESSION["usuario"];
+            $datos[]=md5($_SESSION["clave"]);
+
+            $sentencia->execute($datos);
+
+            if ($sentencia->rowCount()>0)
+            {
+                
+            }
+        }
+        catch(PDOException $e)
+        {
+
+        }
+        $conexion = null;
     }
     else
     {

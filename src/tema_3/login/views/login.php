@@ -9,17 +9,6 @@
         {
             try
             {
-                $conexion = new PDO("mysql:host=".DB_SERVER.";dbname=".DB_NAME, DB_USERNAME, DB_PASSWORD);
-                
-                $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            }
-            catch(PDOException $e)
-            {
-                error_page($e);
-            }
-
-            try
-            {
                 $consulta = "select * from usuarios where usuario=? and clave=?";
                 $sentencia=$conexion->prepare($consulta);
 
