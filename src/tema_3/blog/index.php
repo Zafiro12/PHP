@@ -1,5 +1,6 @@
 <?php
 require_once "admin/conexion.php";
+require_once "admin/config.php";
 session_name("Blog_Curso22_23");
 session_start();
 
@@ -23,6 +24,18 @@ function pagina_error($error)
     </html>";
 }
 
+if (isset($_POST["login"])) {
+    $error_usuario = $_POST["usuario"] == "";
+    $error_clave = $_POST["clave"] == "";
+    $error_form = $error_clave || $error_usuario;
+
+    if (!$error_form) {
+        $conexion = new Conexion(HOST, DB, USER, PASSWORD);
+
+        
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -39,13 +52,22 @@ function pagina_error($error)
     <form action="index.php" method="post">
         <p>
             <label for="usuario">Nombre de usuario</label>
-            <input type="text" name="usuario" id="usuario">
+            <input type="text" name="usuario" id="usuario" value="<?php if (isset($_POST["usuario"])) echo $_POST["usuario"]; ?>">
+            <?php
+                if (isset($_POST["usuario"]) && $error_usuario) {
+                    if ($_POST["usuario"] == "") {
+                        echo "<span style='color: red;'>*Campo vacío</span>";
+                    } else {
+                        echo "<span style='color: red;'>*El usuario no es correcto</span>";
+                    }
+                }
+            ?>
         </p>
         <p>
             <label for="clave">Contraseña</label>
             <input type="password" name="clave" id="clave">
         </p>
-        <input type="submit" value="Entrar">
+        <input type="submit" name="login" value="Entrar">
         <input type="submit" formaction="#" value="Registrarse">
     </form>
 </body>

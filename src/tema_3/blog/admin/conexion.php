@@ -6,19 +6,10 @@ class Conexion
 {
     private $dbConnection = null;
 
-    public function __construct()
+    public function __construct($host, $db, $user, $password)
     {
-        $host = HOST;
-        $db   = DB;
-        $user = USER;
-        $pass = PASSWORD;
-
         try {
-            $this->dbConnection = new \PDO(
-                "mysql:host=$host;charset=utf8mb4;dbname=$db",
-                $user,
-                $pass
-            );
+            $this->dbConnection = new \PDO("mysql:host=$host;charset=utf8mb4;dbname=$db", $user, $password);
         } catch (\PDOException $e) {
             pagina_error($e->getMessage());
         }
