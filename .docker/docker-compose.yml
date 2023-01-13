@@ -1,10 +1,8 @@
 version: '3'
 
-name: php
 
 services:
     apache2:
-        container_name: server
         build:
             context: .
             dockerfile: php/Dockerfile
@@ -23,7 +21,6 @@ services:
         - "host.docker.internal:host-gateway"
     
     db:
-        container_name: db
         build: 
             context: .
             dockerfile: mysql/Dockerfile
@@ -41,11 +38,10 @@ services:
     
 
     phpmyadmin:
-        container_name: phpmyadmin
         image: phpmyadmin:latest
         restart: always
         ports:
             - 8080:80
 
 volumes:
-  db_data:
+    db_data:
