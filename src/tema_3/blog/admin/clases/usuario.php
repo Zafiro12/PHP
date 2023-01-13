@@ -11,7 +11,7 @@ class Usuarios
 
     public function todos()
     {
-        $statement = "
+        $sentencia = "
             SELECT 
                 *
             FROM
@@ -19,17 +19,17 @@ class Usuarios
         ";
 
         try {
-            $statement = $this->db->query($statement);
-            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
-            return $result;
+            $sentencia = $this->db->query($sentencia);
+            $resultado = $sentencia->fetchAll(\PDO::FETCH_ASSOC);
+            return $resultado;
         } catch (\PDOException $e) {
-            exit($e->getMessage());
+            pagina_error($e->getMessage());
         }
     }
 
     public function buscarId($id)
     {
-        $statement = "
+        $sentencia = "
             SELECT 
                 *
             FROM
@@ -38,38 +38,37 @@ class Usuarios
         ";
 
         try {
-            $statement = $this->db->prepare($statement);
-            $statement->execute(array($id));
-            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
-            return $result;
+            $sentencia = $this->db->prepare($sentencia);
+            $sentencia->execute(array($id));
+            $resultado = $sentencia->fetchAll(\PDO::FETCH_ASSOC);
+            return $resultado;
         } catch (\PDOException $e) {
-            exit($e->getMessage());
+            pagina_error($e->getMessage());
         }
     }
 
-    public function buscarUsuario($usuario)
+    public function comprobar($usuario, $clave)
     {
-        $statement = "
+        $sentencia = "
             SELECT 
                 *
             FROM
                 usuarios
-            WHERE usuario = ?;
+            WHERE usuario = ? AND password = ?;
         ";
 
         try {
-            $statement = $this->db->prepare($statement);
-            $statement->execute(array($usuario));
-            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
-            return $result;
+            $sentencia = $this->db->prepare($sentencia);
+            $sentencia->execute(array($usuario, $clave));
+            return $sentencia->rowCount()>0;
         } catch (\PDOException $e) {
-            exit($e->getMessage());
+            pagina_error($e->getMessage());
         }
     }
 
     public function insertar(array $input)
     {
-        $statement = "
+        $sentencia = "
             INSERT INTO usuarios 
                 (usuario, clave, nombre, email)
             VALUES
@@ -77,22 +76,22 @@ class Usuarios
         ";
 
         try {
-            $statement = $this->db->prepare($statement);
-            $statement->execute(array(
+            $sentencia = $this->db->prepare($sentencia);
+            $sentencia->execute(array(
                 'usuario' => $input['usuario'],
                 'clave'  => $input['clave'],
                 'nombre' => $input['nombre'],
                 'email' => $input['email'],
             ));
-            return $statement->rowCount();
+            return $sentencia->rowCount();
         } catch (\PDOException $e) {
-            exit($e->getMessage());
+            pagina_error($e->getMessage());
         }
     }
 
     public function cambiar($id, array $input)
     {
-        $statement = "
+        $sentencia = "
             UPDATE usuarios
             SET 
                 usuario = :usuario,
@@ -103,33 +102,33 @@ class Usuarios
         ";
 
         try {
-            $statement = $this->db->prepare($statement);
-            $statement->execute(array(
+            $sentencia = $this->db->prepare($sentencia);
+            $sentencia->execute(array(
                 'id' => (int) $id,
                 'usuario' => $input['usuario'],
                 'clave'  => $input['clave'],
                 'nombre' => $input['nombre'],
                 'email' => $input['email'],
             ));
-            return $statement->rowCount();
+            return $sentencia->rowCount();
         } catch (\PDOException $e) {
-            exit($e->getMessage());
+            pagina_error($e->getMessage());
         }
     }
 
     public function eliminar($id)
     {
-        $statement = "
+        $sentencia = "
             DELETE FROM usuarios
             WHERE id = :id;
         ";
 
         try {
-            $statement = $this->db->prepare($statement);
-            $statement->execute(array('id' => $id));
-            return $statement->rowCount();
+            $sentencia = $this->db->prepare($sentencia);
+            $sentencia->execute(array('id' => $id));
+            return $sentencia->rowCount();
         } catch (\PDOException $e) {
-            exit($e->getMessage());
+            pagina_error($e->getMessage());
         }
     }
 }

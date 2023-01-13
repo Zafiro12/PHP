@@ -15,7 +15,7 @@ class Conexion
         }
     }
 
-    public function Conectar()
+    public function conectar()
     {
         return $this->dbConnection;
     }
