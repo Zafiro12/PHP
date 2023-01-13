@@ -57,7 +57,7 @@ if (isset($_POST["login"])) {
             <label for="clave">Contraseña</label>
             <input type="password" name="clave" id="clave">
             <?php
-            if ($error_clave) {
+            if (isset($_POST["clave"]) && $error_clave) {
                 echo "<span style='color: red;'>*Campo vacío</span>";
             }
             ?>
