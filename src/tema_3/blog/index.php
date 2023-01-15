@@ -29,7 +29,7 @@ if (isset($_POST["salir"])) {
 }
 
 if (isset($_SESSION["usuario"])) {
-    echo "<h1>Bienvenido ".$_SESSION["usuario"]."</h1>";
+    echo "<h1>Bienvenido " . $_SESSION["usuario"] . "</h1>";
     ?>
     <form action="index.php" method="post">
         <input type="submit" name="salir" value="Salir">
