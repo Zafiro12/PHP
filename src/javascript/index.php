@@ -1,5 +1,5 @@
 <?php
-require "../tema_3/blog/admin/conexion.php";
+require "../tema_3/blog/admin/Conexion.php";
 
 $conexion = new Conexion("db", "bd_usuarios", "jose", "josefa");
 

@@ -1,5 +1,5 @@
 <?php
-require_once "admin/conexion.php";
+require_once "admin/Conexion.php";
 require_once "admin/config.php";
 session_name("Blog_Curso22_23");
 session_start();

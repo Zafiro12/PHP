@@ -69,7 +69,7 @@ if (isset($_POST["login"])) {
         ?>
     </p>
     <input type="submit" name="login" value="Entrar">
-    <input type="submit" formaction="registro.php" name="registro" value="Registrarse">
+    <input type="submit" formaction="registro.php" value="Registrarse">
 </form>
 </body>
 
