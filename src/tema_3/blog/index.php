@@ -4,6 +4,7 @@ require_once "admin/config.php";
 session_name("Blog_Curso22_23");
 session_start();
 
+$conexion = new Conexion(HOST,DB,USER,PASSWORD);
 
 function pagina_error($error)
 {
@@ -29,6 +30,8 @@ if (isset($_POST["salir"])) {
 }
 
 if (isset($_SESSION["usuario"])) {
+    require_once "views/seguridad.php";
+
     echo "<h1>Bienvenido " . $_SESSION["usuario"] . "</h1>";
     ?>
     <form action="index.php" method="post">
@@ -38,3 +41,5 @@ if (isset($_SESSION["usuario"])) {
 } else {
     require_once "views/login.php";
 }
+
+

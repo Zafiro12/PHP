@@ -1,7 +1,6 @@
 <?php
 require_once "config.php";
 
-
 class Conexion
 {
     private $dbConnection = null;

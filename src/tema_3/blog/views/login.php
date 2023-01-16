@@ -1,5 +1,5 @@
 <?php
-require_once "admin/clases/usuario.php";
+require_once "admin/clases/Usuarios.php";
 
 if (isset($_POST["login"])) {
     $error_usuario = $_POST["usuario"] == "";
@@ -18,6 +18,7 @@ if (isset($_POST["login"])) {
         if ($resultado) {
             $_SESSION["usuario"] = $datos[0];
             $_SESSION["clave"] = $datos[1];
+            $_SESSION["ultimo_acceso"] = time();
             header("Location: index.php");
             exit();
         } else {

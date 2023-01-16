@@ -1,8 +1,9 @@
 <?php
+
 class Usuarios
 {
 
-    private $db = null;
+    private $db;
 
     public function __construct($db)
     {
@@ -20,9 +21,8 @@ class Usuarios
 
         try {
             $sentencia = $this->db->query($sentencia);
-            $resultado = $sentencia->fetchAll(\PDO::FETCH_ASSOC);
-            return $resultado;
-        } catch (\PDOException $e) {
+            return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
             pagina_error($e->getMessage());
         }
     }
@@ -34,15 +34,14 @@ class Usuarios
                 *
             FROM
                 usuarios
-            WHERE id = ?;
+            WHERE idUsuario = ?;
         ";
 
         try {
             $sentencia = $this->db->prepare($sentencia);
             $sentencia->execute(array($id));
-            $resultado = $sentencia->fetchAll(\PDO::FETCH_ASSOC);
-            return $resultado;
-        } catch (\PDOException $e) {
+            return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
             pagina_error($e->getMessage());
         }
     }
@@ -60,8 +59,8 @@ class Usuarios
         try {
             $sentencia = $this->db->prepare($sentencia);
             $sentencia->execute(array($usuario, $clave));
-            return $sentencia->rowCount()>0;
-        } catch (\PDOException $e) {
+            return $sentencia->rowCount() > 0;
+        } catch (PDOException $e) {
             pagina_error($e->getMessage());
         }
     }
@@ -70,7 +69,7 @@ class Usuarios
     {
         $sentencia = "
             INSERT INTO usuarios 
-                (usuario, clave, nombre, email)
+                (usuario, password, nombre, email)
             VALUES
                 (:usuario, :clave, :nombre, :email);
         ";
@@ -79,12 +78,12 @@ class Usuarios
             $sentencia = $this->db->prepare($sentencia);
             $sentencia->execute(array(
                 'usuario' => $input['usuario'],
-                'clave'  => $input['clave'],
+                'clave' => $input['clave'],
                 'nombre' => $input['nombre'],
                 'email' => $input['email'],
             ));
             return $sentencia->rowCount();
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             pagina_error($e->getMessage());
         }
     }
@@ -95,23 +94,23 @@ class Usuarios
             UPDATE usuarios
             SET 
                 usuario = :usuario,
-                clave  = :clave,
+                password  = :clave,
                 nombre = :nombre,
                 email = :email
-            WHERE id = :id;
+            WHERE idUsuario = :id;
         ";
 
         try {
             $sentencia = $this->db->prepare($sentencia);
             $sentencia->execute(array(
-                'id' => (int) $id,
+                'id' => (int)$id,
                 'usuario' => $input['usuario'],
-                'clave'  => $input['clave'],
+                'clave' => $input['clave'],
                 'nombre' => $input['nombre'],
                 'email' => $input['email'],
             ));
             return $sentencia->rowCount();
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             pagina_error($e->getMessage());
         }
     }
@@ -120,14 +119,14 @@ class Usuarios
     {
         $sentencia = "
             DELETE FROM usuarios
-            WHERE id = :id;
+            WHERE idUsuario = :id;
         ";
 
         try {
             $sentencia = $this->db->prepare($sentencia);
             $sentencia->execute(array('id' => $id));
             return $sentencia->rowCount();
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             pagina_error($e->getMessage());
         }
     }
