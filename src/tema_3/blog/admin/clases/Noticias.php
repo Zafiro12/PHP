@@ -26,6 +26,25 @@ class Noticias
         }
     }
 
+    public function buscarId($id)
+    {
+        $sentencia = "
+            SELECT 
+                *
+            FROM
+                noticias
+            WHERE idNoticia = ?;
+        ";
+
+        try {
+            $sentencia = $this->db->prepare($sentencia);
+            $sentencia->execute(array($id));
+            return $sentencia->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            pagina_error($e->getMessage());
+        }
+    }
+
     public function insertar(array $input)
     {
         $sentencia = "
