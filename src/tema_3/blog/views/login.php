@@ -39,33 +39,38 @@ if (isset($_POST["login"])) {
 </head>
 
 <body>
-    <h1>Blog personal</h1>
-    <form action="index.php" method="post">
-        <p>
-            <label for="usuario">Nombre de usuario</label>
-            <input type="text" name="usuario" id="usuario" value="<?php if (isset($_POST["usuario"])) echo $_POST["usuario"]; ?>">
-            <?php
-            if (isset($_POST["usuario"]) && $error_usuario) {
+<h1>Blog personal</h1>
+<form action="index.php" method="post">
+    <p>
+        <label for="usuario">Nombre de usuario</label>
+        <input type="text" name="usuario" id="usuario"
+               value="<?php if (isset($_POST["usuario"])) echo $_POST["usuario"]; ?>">
+        <?php
+        if (isset($_POST["usuario"]) && isset($error_usuario)) {
+            if ($error_usuario) {
                 if ($_POST["usuario"] == "") {
                     echo "<span style='color: red;'>*Campo vacío</span>";
                 } else {
                     echo "<span style='color: red;'>*El usuario no es correcto</span>";
                 }
             }
-            ?>
-        </p>
-        <p>
-            <label for="clave">Contraseña</label>
-            <input type="password" name="clave" id="clave">
-            <?php
-            if (isset($_POST["clave"]) && $error_clave) {
+        }
+        ?>
+    </p>
+    <p>
+        <label for="clave">Contraseña</label>
+        <input type="password" name="clave" id="clave">
+        <?php
+        if (isset($_POST["clave"]) && isset($error_clave)) {
+            if ($error_clave) {
                 echo "<span style='color: red;'>*Campo vacío</span>";
             }
-            ?>
-        </p>
-        <input type="submit" name="login" value="Entrar">
-        <input type="submit" formaction="#" value="Registrarse">
-    </form>
+        }
+        ?>
+    </p>
+    <input type="submit" name="login" value="Entrar">
+    <input type="submit" formaction="registro.php" name="registro" value="Registrarse">
+</form>
 </body>
 
 </html>
