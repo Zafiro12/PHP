@@ -25,16 +25,22 @@ if (isset($_POST["registro"])) {
         $datos["nombre"] = $_POST["nombre"];
         $datos["email"] = $_POST["email"];
 
-        $resultado = $usuarios->insertar($datos);
+        $error_usuario = $usuarios->repeticionUsuario($datos["usuario"]);
+        $error_email = $usuarios->repeticionEmail($datos["email"]);
+        $error_repeticion = $error_email || $error_usuario;
 
-        if ($resultado != 0) {
-            $_SESSION["usuario"] = $datos["usuario"] ;
-            $_SESSION["clave"] = $datos["clave"];
-            $_SESSION["ultimo_acceso"] = time();
-            header("Location: index.php");
-            exit();
-        } else {
-            $error_usuario = true;
+        if (!$error_repeticion) {
+            $resultado = $usuarios->insertar($datos);
+
+            if ($resultado != 0) {
+                $_SESSION["usuario"] = $datos["usuario"] ;
+                $_SESSION["clave"] = $datos["clave"];
+                $_SESSION["ultimo_acceso"] = time();
+                header("Location: index.php");
+                exit();
+            } else {
+                $error_usuario = true;
+            }
         }
     }
 }
@@ -58,7 +64,11 @@ if (isset($_POST["registro"])) {
         <?php
         if (isset($_POST["usuario"]) && isset($error_usuario)) {
             if ($error_usuario) {
-                echo "<span style='color: red;'>*Campo vacío</span>";
+                if ($_POST["usuario"] == "") {
+                    echo "<span style='color: red;'>*Campo vacío</span>";
+                } else {
+                    echo "<span style='color: red;'>*El usuario ya existe</span>";
+                }
             }
         }
         ?>
@@ -92,7 +102,11 @@ if (isset($_POST["registro"])) {
         <?php
         if (isset($_POST["email"]) && isset($error_email)) {
             if ($error_email) {
-                echo "<span style='color: red;'>*Campo vacío</span>";
+                if ($_POST["email"] == "") {
+                    echo "<span style='color: red;'>*Campo vacío</span>";
+                } else {
+                    echo "<span style='color: red;'>*El email ya existe</span>";
+                }
             }
         }
         ?>

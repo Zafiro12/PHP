@@ -27,20 +27,39 @@ class Usuarios
         }
     }
 
-    public function buscarId($id)
+    public function repeticionUsuario($usuario)
     {
         $sentencia = "
             SELECT 
                 *
             FROM
                 usuarios
-            WHERE idUsuario = ?;
+            WHERE usuario = ?;
         ";
 
         try {
             $sentencia = $this->db->prepare($sentencia);
-            $sentencia->execute(array($id));
-            return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            $sentencia->execute(array($usuario));
+            return $sentencia->rowCount() > 0;
+        } catch (PDOException $e) {
+            pagina_error($e->getMessage());
+        }
+    }
+
+    public function repeticionEmail($email)
+    {
+        $sentencia = "
+            SELECT 
+                *
+            FROM
+                usuarios
+            WHERE email = ?;
+        ";
+
+        try {
+            $sentencia = $this->db->prepare($sentencia);
+            $sentencia->execute(array($email));
+            return $sentencia->rowCount() > 0;
         } catch (PDOException $e) {
             pagina_error($e->getMessage());
         }
