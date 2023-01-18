@@ -60,15 +60,15 @@ if (!isset($_GET["id"])) {
     $noticias = $noticias->todos();
 
     foreach ($noticias as $noticia) {
-        echo "<h1><a href='index.php?id=".$noticia["idNoticia"]."'>".$noticia["titulo"]."</a></h1>";
-        echo "<p>".$noticia["copete"]."</p>";
+        echo "<h1><a href='index.php?id=" . $noticia["idNoticia"] . "'>" . $noticia["titulo"] . "</a></h1>";
+        echo "<p>" . $noticia["copete"] . "</p>";
     }
 } else {
     $noticias = $noticias->buscarId($_GET["id"]);
 
-    echo "<h1>".$noticias["titulo"]."</h1>";
-    echo "<h3>".$noticias["copete"]."</h3>";
-    echo "<p>".$noticias["cuerpo"]."</p>";
+    echo "<h1>" . $noticias["titulo"] . "</h1>";
+    echo "<h3>" . $noticias["copete"] . "</h3>";
+    echo "<p>" . $noticias["cuerpo"] . "</p>";
     echo "<button><a href='index.php'>Salir</a></button>";
 }
 ?>
