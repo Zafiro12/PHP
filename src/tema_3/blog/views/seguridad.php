@@ -1,9 +1,9 @@
 <?php
-require_once "admin/clases/Usuarios.php";
-$conexion = new Conexion(HOST,DB,USER,PASSWORD);
-$usuarios = new Usuarios($conexion->conectar());
+$consulta = "SELECT * FROM usuarios WHERE usuario = ? AND password = ?";
+$sentencia = ejecutar_consulta($consulta, array($_SESSION["usuario"], $_SESSION["clave"]));
+$usuario = $sentencia->fetch(PDO::FETCH_ASSOC);
 
-if (!$usuarios->comprobar($_SESSION["usuario"], $_SESSION["clave"])) {
+if (!$usuario) {
     session_unset();
 }
 

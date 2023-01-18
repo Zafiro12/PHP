@@ -1,28 +1,7 @@
 <?php
-require_once "admin/Conexion.php";
 require_once "admin/config.php";
-require_once "admin/clases/Noticias.php";
 session_name("Blog_Curso22_23");
 session_start();
-
-function pagina_error($error)
-{
-    echo "<!DOCTYPE html>
-    <html lang='es'>
-    
-    <head>
-        <meta charset='UTF-8'>
-        <title>Error</title>
-    </head>
-    
-    <body>
-        <h1>Ha ocurrido un error</h1>
-        <p>" . $error . "</p>
-    </body>
-    
-    </html>";
-    exit();
-}
 
 if (isset($_POST["salir"])) {
     session_unset();
@@ -52,24 +31,43 @@ if (isset($_SESSION["usuario"])) {
     <title>Noticias</title>
 </head>
 <body>
+<hr>
 <?php
-$conexion = new Conexion(HOST, DB, USER, PASSWORD);
-$noticias = new  Noticias($conexion->conectar());
+if (isset($_GET["id"])) {
+    $consulta = "select * from noticias n, usuarios u, categorias c where n.idNoticia = ? and n.idUsuario = u.idUsuario and n.idCategoria = c.idCategoria";
+    $noticia = ejecutar_consulta($consulta, array($_GET["id"]))->fetch(PDO::FETCH_ASSOC);
 
-if (!isset($_GET["id"])) {
-    $noticias = $noticias->todos();
+    echo "<h2>" . $noticia["titulo"] . "</h2>";
+    echo "<h3>" . $noticia["copete"] . "</h3>";
+    echo "<small>Noticia por <u>" . $noticia["usuario"] . "</u> en <i>" . $noticia["valor"] . "</i></small>";
+    echo "<p>" . $noticia["cuerpo"] . "</p>";
+    echo "<hr>";
+    echo "<h2>Comentarios</h2>";
+
+    $consulta = "select * from comentarios c, usuarios u where c.idNoticia = ? and c.idUsuario = u.idUsuario";
+    $comentarios = ejecutar_consulta($consulta, array($_GET["id"]))->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($comentarios as $comentario) {
+        echo "<h3>" . $comentario["usuario"] . "</h3>";
+        echo "<p>" . $comentario["comentario"] . "</p>";
+        echo "<hr>";
+    }
+
+    if (isset($_SESSION["usuario"])) {
+        echo "";
+    }
+
+    echo "<form action='index.php'>";
+    echo "<button type='submit'>Salir</button>";
+    echo "</form>";
+} else {
+    $consulta = "SELECT * FROM noticias";
+    $noticias = ejecutar_consulta($consulta)->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($noticias as $noticia) {
-        echo "<h1><a href='index.php?id=" . $noticia["idNoticia"] . "'>" . $noticia["titulo"] . "</a></h1>";
+        echo "<h2><a href='index.php?id=" . $noticia["idNoticia"] . "'>" . $noticia["titulo"] . "</a></h2>";
         echo "<p>" . $noticia["copete"] . "</p>";
     }
-} else {
-    $noticias = $noticias->buscarId($_GET["id"]);
-
-    echo "<h1>" . $noticias["titulo"] . "</h1>";
-    echo "<h3>" . $noticias["copete"] . "</h3>";
-    echo "<p>" . $noticias["cuerpo"] . "</p>";
-    echo "<button><a href='index.php'>Salir</a></button>";
 }
 ?>
 </body>

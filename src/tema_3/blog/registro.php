@@ -1,8 +1,7 @@
 <?php
-require_once "admin/Conexion.php";
-require_once "admin/clases/Usuarios.php";
-session_name("Blog_Curso22_23");
-session_start();
+// TODO El id de los usuarios aumenta incluso si no se crea el usuario
+
+require_once "admin/config.php";
 
 if (isset($_POST["salir"])) {
     header("Location: index.php");
@@ -17,22 +16,30 @@ if (isset($_POST["registro"])) {
     $error_form = $error_clave || $error_usuario || $error_nombre || $error_email;
 
     if (!$error_form) {
-        $conexion = new Conexion(HOST, DB, USER, PASSWORD);
-        $usuarios = new Usuarios($conexion->conectar());
-
         $datos["usuario"] = $_POST["usuario"];
         $datos["clave"] = md5($_POST["clave"]);
         $datos["nombre"] = $_POST["nombre"];
         $datos["email"] = $_POST["email"];
 
-        $error_usuario = $usuarios->repeticionUsuario($datos["usuario"]);
-        $error_email = $usuarios->repeticionEmail($datos["email"]);
+        $consulta = "SELECT * FROM usuarios WHERE usuario = ?";
+        $array = [$datos["usuario"]];
+        $sentencia = ejecutar_consulta($consulta, $array);
+
+        $error_usuario = $sentencia->rowCount() > 0;
+
+        $consulta = "SELECT * FROM usuarios WHERE email = ?";
+        $array = [$datos["email"]];
+        $sentencia = ejecutar_consulta($consulta, $array);
+
+        $error_email = $sentencia->rowCount() > 0;
         $error_repeticion = $error_email || $error_usuario;
 
         if (!$error_repeticion) {
-            $resultado = $usuarios->insertar($datos);
+            $consulta = "INSERT INTO usuarios (usuario, password, nombre, email) VALUES (?, ?, ?, ?)";
+            $array = [$datos["usuario"], $datos["clave"], $datos["nombre"], $datos["email"]];
+            $sentencia = ejecutar_consulta($consulta, $array);
 
-            if ($resultado != 0) {
+            if ($sentencia) {
                 $_SESSION["usuario"] = $datos["usuario"] ;
                 $_SESSION["clave"] = $datos["clave"];
                 $_SESSION["ultimo_acceso"] = time();

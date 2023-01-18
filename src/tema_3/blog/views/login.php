@@ -1,19 +1,18 @@
 <?php
-require_once "admin/clases/Usuarios.php";
-
 if (isset($_POST["login"])) {
     $error_usuario = $_POST["usuario"] == "";
     $error_clave = $_POST["clave"] == "";
     $error_form = $error_clave || $error_usuario;
 
     if (!$error_form) {
-        $conexion = new Conexion(HOST, DB, USER, PASSWORD);
-        $usuarios = new Usuarios($conexion->conectar());
+        $consulta = "SELECT * FROM usuarios WHERE usuario = ? AND password = ?";
 
         $datos[] = $_POST["usuario"];
         $datos[] = md5($_POST["clave"]);
 
-        $resultado = $usuarios->comprobar($datos[0], $datos[1]);
+        $sentencia = ejecutar_consulta($consulta, $datos);
+
+        $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
 
         if ($resultado) {
             $_SESSION["usuario"] = $datos[0];
