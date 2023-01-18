@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db
--- Tiempo de generación: 13-01-2023 a las 09:25:16
+-- Tiempo de generación: 18-01-2023 a las 11:46:07
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 8.0.27
 
@@ -32,6 +32,13 @@ CREATE TABLE `categorias` (
   `valor` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`idCategoria`, `valor`) VALUES
+(1, 'ULTIMA HORA');
+
 -- --------------------------------------------------------
 
 --
@@ -46,6 +53,13 @@ CREATE TABLE `comentarios` (
   `estado` enum('sin validar','apto') DEFAULT 'sin validar',
   `fCreacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `comentarios`
+--
+
+INSERT INTO `comentarios` (`idComentario`, `comentario`, `idUsuario`, `idNoticia`, `estado`, `fCreacion`) VALUES
+(8, 'Este es un comentario de prueba', 1, 1, 'sin validar', '2023-01-18 11:44:50');
 
 -- --------------------------------------------------------
 
@@ -64,6 +78,13 @@ CREATE TABLE `noticias` (
   `fCreacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `fModificacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `noticias`
+--
+
+INSERT INTO `noticias` (`idNoticia`, `titulo`, `copete`, `cuerpo`, `idUsuario`, `idCategoria`, `fPublicacion`, `fCreacion`, `fModificacion`) VALUES
+(1, 'Noticia', 'Noticia de prueba', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed elit tellus, iaculis suscipit lectus mattis, fringilla efficitur tortor. Nunc ullamcorper vulputate lacus sit amet ultrices. Mauris eget libero posuere, elementum orci sed, mattis quam. Cras tincidunt lacus ac elit iaculis, ac luctus lectus congue. Proin tristique interdum erat ut tempor. Mauris eleifend justo sed volutpat porta. Aliquam interdum justo nec ornare consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sit amet augue sodales, bibendum augue sit amet, placerat massa.', 1, 1, '2023-01-16 10:35:48', '2023-01-16 09:35:53', '2023-01-18 11:23:04');
 
 -- --------------------------------------------------------
 
@@ -128,25 +149,25 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `idCategoria` int NOT NULL AUTO_INCREMENT;
+  MODIFY `idCategoria` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `idComentario` int NOT NULL AUTO_INCREMENT;
+  MODIFY `idComentario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `noticias`
 --
 ALTER TABLE `noticias`
-  MODIFY `idNoticia` int NOT NULL AUTO_INCREMENT;
+  MODIFY `idNoticia` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idUsuario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Restricciones para tablas volcadas
