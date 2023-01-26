@@ -17,7 +17,7 @@ if (isset($_POST['email']) && isset($_POST['clave'])) {
         if (md5($clave) == $fila['clave']) {
             $_SESSION['email'] = $email;
             $_SESSION['administrador'] = $fila['administrador'];
-            header("Location: index.php");
+            header("Location: funciones.php");
             exit;
         } else {
             $error_clave = true;

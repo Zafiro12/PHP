@@ -15,12 +15,12 @@ if (isset($_POST['registrarse'])) {
 
     // *** EMAIL ***
     $sql = "SELECT * FROM usuarios WHERE email = '" . $_POST['email'] . "'";
-    $result = mysqli_query($link, $sql) or die("<p>Imposible ejecutar la consulta. Error número " . mysqli_errno($link) . ": " . mysqli_error($link) . "</p><a href='index.php?salir=1'>Volver</a>");
+    $result = mysqli_query($link, $sql) or die("<p>Imposible ejecutar la consulta. Error número " . mysqli_errno($link) . ": " . mysqli_error($link) . "</p><a href='funciones.php?salir=1'>Volver</a>");
     $error_email = empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) || mysqli_num_rows($result) > 0;
 
     // *** USUARIO ***
     $sql = "SELECT * FROM usuarios WHERE usuario = '" . $_POST['usuario'] . "'";
-    $result = mysqli_query($link, $sql) or die("<p>Imposible ejecutar la consulta. Error número " . mysqli_errno($link) . ": " . mysqli_error($link) . "</p><a href='index.php?salir=1'>Volver</a>");
+    $result = mysqli_query($link, $sql) or die("<p>Imposible ejecutar la consulta. Error número " . mysqli_errno($link) . ": " . mysqli_error($link) . "</p><a href='funciones.php?salir=1'>Volver</a>");
     $error_usuario = mysqli_num_rows($result) > 0 || empty($_POST['usuario']);
 
     $error_registro = $error_nombre || $error_clave || $error_email || $error_usuario;
@@ -36,10 +36,10 @@ if (isset($_POST['registrarse'])) {
         if ($result) {
             mysqli_close($link);
             $_SESSION['email'] = $email;
-            header("Location: index.php");
+            header("Location: funciones.php");
         } else {
             echo "Error al insertar el usuario";
-            echo "<a href='index.php?salir=1'>Volver</a>";
+            echo "<a href='funciones.php?salir=1'>Volver</a>";
         }
     }
 }

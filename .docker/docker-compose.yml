@@ -2,40 +2,40 @@ version: '3'
 
 
 services:
-    apache2:
-        build:
-            context: .
-            dockerfile: php/Dockerfile
-        environment:
-            XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9003 remote_enable=1
-        ports:
-            - "80:80"
-        volumes:
-            - ../src:/var/www/html
-        restart: always
-        extra_hosts:
-        - "host.docker.internal:host-gateway"
-    
-    db:
-        build: 
-            context: .
-            dockerfile: mysql/Dockerfile
-        restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_USER: jose
-            MYSQL_PASSWORD: josefa
-        hostname: db
-        ports:
-            - "3306:3306"
-            - "33060:33060"
-        volumes:
-            - db_data:/var/lib/mysql
+  apache2:
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9003 remote_enable=1
+    ports:
+      - "80:80"
+    volumes:
+      - ../src:/var/www/html
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
-    phpmyadmin:
-        image: phpmyadmin:latest
-        restart: always
-        ports:
-            - "8080:80"
+  db:
+    build:
+      context: .
+      dockerfile: mysql/Dockerfile
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: jose
+      MYSQL_PASSWORD: josefa
+    hostname: db
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+      - "8080:80"
 volumes:
-    db_data:
+  db_data:

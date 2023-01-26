@@ -1,0 +1,2 @@
+GET http://localhost/tema_4/actividad_1/servicio/productos
+Accept: application/json

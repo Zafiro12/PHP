@@ -193,7 +193,7 @@ if (isset($_POST['guardar'])) {
         }
 
         if (editar($link, "usuarios", $id, $usuario, $clave, $nombre, $dni, $sexo, $foto)) {
-            header("location: index.php");
+            header("location: funciones.php");
         } else {
             $error_edicion = true;
         }

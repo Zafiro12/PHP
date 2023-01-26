@@ -91,7 +91,7 @@ session_start();
         $sql = "SELECT * FROM alumnos";
         $result = mysqli_query($link, $sql);
         if (mysqli_num_rows($result) > 0) {
-            echo "<form method='POST' action='index.php'>";
+            echo "<form method='POST' action='funciones.php'>";
             echo "<select name='cod_alu'>";
             while ($row = mysqli_fetch_assoc($result)) {
                 if (isset($_POST['cod_alu']) && $_POST['cod_alu'] == $row['cod_alu']) {
@@ -135,23 +135,23 @@ session_start();
                     mysqli_free_result($result2);
                     if (isset($_SESSION['cod_asig'])) {
                         if ($row['cod_asig'] == $_SESSION['cod_asig']) {
-                            echo "<td><form method=GET action=index.php><input type='text' name='nota' value='" . $row['nota'] . "'>
+                            echo "<td><form method=GET action=funciones.php><input type='text' name='nota' value='" . $row['nota'] . "'>
                             <input type='hidden' name='cod_alu' value='" . $_POST['cod_alu'] . "'>
                             <input type='hidden' name='cod_asig' value='" . $row['cod_asig'] . "'>
                             </td>";
                             echo "<td><input type='submit' name='cambiar' value='Cambiar'>
-                    <a href=index.php>ATRAS</a></form></td>";
+                    <a href=funciones.php>ATRAS</a></form></td>";
                             echo "</tr>";
                         } else {
                             echo "<td>" . $row['nota'] . "</td>";
-                            echo "<td><a href=index.php?cod_asig=" . $row['cod_asig'] . "&cod_alu=" . $row['cod_alu'] . "&editar=true>EDITAR</a> |
-                    <a href=index.php?cod_asig=" . $row['cod_asig'] . "&cod_alu=" . $row['cod_alu'] . "&borrar=true>BORRAR</a></td>";
+                            echo "<td><a href=funciones.php?cod_asig=" . $row['cod_asig'] . "&cod_alu=" . $row['cod_alu'] . "&editar=true>EDITAR</a> |
+                    <a href=funciones.php?cod_asig=" . $row['cod_asig'] . "&cod_alu=" . $row['cod_alu'] . "&borrar=true>BORRAR</a></td>";
                             echo "</tr>";
                         }
                     } else {
                         echo "<td>" . $row['nota'] . "</td>";
-                        echo "<td><a href=index.php?cod_asig=" . $row['cod_asig'] . "&cod_alu=" . $row['cod_alu'] . "&editar=true>EDITAR</a> |
-                    <a href=index.php?cod_asig=" . $row['cod_asig'] . "&cod_alu=" . $row['cod_alu'] . "&borrar=true>BORRAR</a></td>";
+                        echo "<td><a href=funciones.php?cod_asig=" . $row['cod_asig'] . "&cod_alu=" . $row['cod_alu'] . "&editar=true>EDITAR</a> |
+                    <a href=funciones.php?cod_asig=" . $row['cod_asig'] . "&cod_alu=" . $row['cod_alu'] . "&borrar=true>BORRAR</a></td>";
                         echo "</tr>";
                     }
                 }
@@ -166,12 +166,12 @@ session_start();
                 mysqli_free_result($result);
                 echo "<tr>";
                 echo "<td>$denominacion</td>";
-                echo "<td><form method=GET action=index.php><input type='text' name='nota'>
+                echo "<td><form method=GET action=funciones.php><input type='text' name='nota'>
                 <input type='hidden' name='cod_alu' value='" . $_POST['cod_alu'] . "'>
                 <input type='hidden' name='cod_asig' value='" . $cod_asig . "'>
                 </td>";
                 echo "<td><input type='submit' name='insertar' value='Cambiar'>
-                <a href=index.php>ATRAS</a></form></td>";
+                <a href=funciones.php>ATRAS</a></form></td>";
                 echo "</tr>";
             }
             echo "</table>";
@@ -191,7 +191,7 @@ session_start();
             $sql = "SELECT * FROM asignaturas WHERE cod_asig NOT IN (SELECT cod_asig FROM notas WHERE cod_alu = " . $_POST['cod_alu'] . ")";
             $result = mysqli_query($link, $sql);
             if (mysqli_num_rows($result) > 0) {
-                echo "<form method='POST' action='index.php'>";
+                echo "<form method='POST' action='funciones.php'>";
                 echo "<input type='hidden' name='cod_alu' value='" . $_POST['cod_alu'] . "'>";
                 echo "<p>Asignaturas que a $nombreAlumno aún queda por calificar:</p>";
                 echo "<select name='cod_asig'>";

@@ -138,7 +138,7 @@ if (isset($_POST['guardar'])) {
             }
 
             if (editar($link, "peliculas", $id, $titulo, $director, $sinopsis, $tematica, $caratula)) {
-                header("location: index.php");
+                header("location: funciones.php");
             } else {
                 $error_edicion = true;
             }

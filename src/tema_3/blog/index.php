@@ -90,7 +90,7 @@ if (isset($id)) {
         <?php
     }
 
-    echo "<form action='index.php'>";
+    echo "<form action='funciones.php'>";
     echo "<button type='submit'>Salir</button>";
     echo "</form>";
 } else {
@@ -98,7 +98,7 @@ if (isset($id)) {
     $noticias = ejecutar_consulta($consulta)->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($noticias as $noticia) {
-        echo "<h2><a href='index.php?id=" . $noticia["idNoticia"] . "'>" . $noticia["titulo"] . "</a></h2>";
+        echo "<h2><a href='funciones.php?id=" . $noticia["idNoticia"] . "'>" . $noticia["titulo"] . "</a></h2>";
         echo "<p>" . $noticia["copete"] . "</p>";
     }
 }

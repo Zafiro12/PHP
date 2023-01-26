@@ -125,7 +125,7 @@ if (isset($_POST['guardar'])) {
             $clave = md5($clave);
         }
         if (editar($link, "usuarios", $id, $nombre, $email, $usuario, $clave)) {
-            header("location: index.php");
+            header("location: funciones.php");
         } else {
             $error_edicion = true;
         }

@@ -2,7 +2,7 @@
     session_start();
     if (isset($_POST['reset'])) {
         session_destroy();
-        header("Location: index.php");
+        header("Location: funciones.php");
     } 
     
     if (isset($_POST['numero']) &&  isset($_POST['subir'])) {

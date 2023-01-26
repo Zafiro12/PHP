@@ -1,7 +1,7 @@
 <?php
 if (isset($_POST["salir"])) {
     unset($_POST["registrarse"]);
-    header("Location: index.php");
+    header("Location: funciones.php");
     exit();
 }
 
@@ -60,7 +60,7 @@ if (isset($_POST["registro"])) {
                 $_SESSION["usuario"] = $_POST["usuario"];
                 $_SESSION["clave"] = md5($_POST["clave"]);
                 $_SESSION["ultimo_acceso"] = time();
-                header("Location: index.php");
+                header("Location: funciones.php");
                 exit();
             }
         } else {

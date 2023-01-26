@@ -159,7 +159,7 @@ if (isset($_POST['crear'])) {
         }
 
         if (insertar($link, "usuarios", $usuario, $clave, $nombre, $dni, $sexo, $foto)) {
-            header("location: index.php");
+            header("location: funciones.php");
         } else {
             $error_insercion = true;
         }
