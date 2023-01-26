@@ -86,7 +86,7 @@ if (isset($_POST['crear'])) {
     if (!$error_nombre && !$error_email && !$error_clave && !$error_usuario) {
         $clave = md5($clave);
         if (insertar($link, "usuarios", $nombre, $email,$usuario, $clave)) {
-            header("location: funciones.php");
+            header("location: index.php");
         } else {
             $error_insercion = true;
         }

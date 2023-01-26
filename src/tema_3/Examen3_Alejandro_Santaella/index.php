@@ -10,7 +10,7 @@ if (isset($_GET["salir"])) {
 if (isset($_SESSION["usuario"])) {
     if ($_SESSION["ultimo_acceso"] < (time() - 60*3)) {
         session_unset();
-        header("Location: funciones.php");
+        header("Location: index.php");
         exit();
     }
 

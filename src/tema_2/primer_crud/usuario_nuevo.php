@@ -31,7 +31,7 @@ if (isset($_POST['continuar'])) {
         $resultado = mysqli_query($conexion, $consulta);
         if ($resultado) {
             mysqli_close($conexion);
-            header("Location: funciones.php");
+            header("Location: index.php");
         } else {
             echo "Error al insertar el usuario";
         }

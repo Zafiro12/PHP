@@ -4,7 +4,7 @@
 require_once "admin/config.php";
 
 if (isset($_POST["salir"])) {
-    header("Location: funciones.php");
+    header("Location: index.php");
     exit();
 }
 
@@ -43,7 +43,7 @@ if (isset($_POST["registro"])) {
                 $_SESSION["usuario"] = $datos["usuario"] ;
                 $_SESSION["clave"] = $datos["clave"];
                 $_SESSION["ultimo_acceso"] = time();
-                header("Location: funciones.php");
+                header("Location: index.php");
                 exit();
             } else {
                 $error_usuario = true;

@@ -20,7 +20,7 @@ function visualizarDatos($link, $tabla, ...$columnas)
 
             mysqli_free_result($cols);
 
-            echo "<th><a href='funciones.php?crear=1'>+Añadir</a></th>";
+            echo "<th><a href='index.php?crear=1'>+Añadir</a></th>";
             echo "</tr>";
 
             while ($row = mysqli_fetch_array($result)) {
@@ -28,15 +28,15 @@ function visualizarDatos($link, $tabla, ...$columnas)
                 echo "<tr>";
                 foreach ($columnas as $col) {
                     if ($col == "usuario") { // !Cambiar columna de vista si es necesario
-                        echo "<td><a href='funciones.php?id=$id&ver=1'>" . $row[$col] . "</a></td>";
+                        echo "<td><a href='index.php?id=$id&ver=1'>" . $row[$col] . "</a></td>";
                     } else {
                         echo "<td>" . $row[$col] . "</td>";
                     }
                 }
                 echo "<td>";
-                echo "<a href='funciones.php?id=$id&editar=1'>Editar</a>";
+                echo "<a href='index.php?id=$id&editar=1'>Editar</a>";
                 echo " || ";
-                echo "<a href='funciones.php?id=$id&borrar=1'>Borrar</a>";
+                echo "<a href='index.php?id=$id&borrar=1'>Borrar</a>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -70,7 +70,7 @@ function visualizarDatos($link, $tabla, ...$columnas)
     <main>
         <?php
         visualizarDatos($link, "usuarios", "usuario", "email");
-        echo "<a href='funciones.php?salir=1'>Cerrar sesión</a>";
+        echo "<a href='index.php?salir=1'>Cerrar sesión</a>";
         ?>
         <main>
 </body>

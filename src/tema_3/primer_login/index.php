@@ -6,11 +6,11 @@ session_start();
 
 $tiempo = (isset($_SESSION['time'])) ? $_SESSION['time'] : strtotime(date("Y-m-d H:i:s"));
 $actual =  strtotime(date("Y-m-d H:i:s"));
-(($actual - $tiempo) >= 600) ? header("Location: funciones.php?salir=1") : $_SESSION['time'] = $actual;
+(($actual - $tiempo) >= 600) ? header("Location: index.php?salir=1") : $_SESSION['time'] = $actual;
 
 if (isset($_GET['salir'])) {
     session_destroy();
-    header("Location: funciones.php");
+    header("Location: index.php");
 }
 
 if (isset($_SESSION['email']) && $_SESSION['administrador'] == 0) {
@@ -20,12 +20,12 @@ if (isset($_SESSION['email']) && $_SESSION['administrador'] == 0) {
         $fila = mysqli_fetch_assoc($resultado);
         $nombre = $fila['nombre'];
         echo "<h1>Bienvenido $nombre</h1>";
-        echo "<a href='funciones.php?salir=1'>Cerrar sesión</a>";
+        echo "<a href='index.php?salir=1'>Cerrar sesión</a>";
 
         mysqli_free_result($resultado);
     } else {
         echo "<h1>Ha ocurrido un error:</h1>" . PHP_EOL . mysqli_error($link);
-        echo "<a href='funciones.php?salir=1'>Volver</a>";
+        echo "<a href='index.php?salir=1'>Volver</a>";
     }
 } elseif (isset($_SESSION['email']) && $_SESSION['administrador'] == 1) {
     require "views/admin.php";

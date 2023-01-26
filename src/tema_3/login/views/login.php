@@ -23,7 +23,7 @@
                     $_SESSION["clave"] = $datos[1];
                     $_SESSION["ultimo_acceso"] = time();
 
-                    header("Location:funciones.php");
+                    header("Location:index.php");
                     exit();
                 }
                 else

@@ -18,7 +18,7 @@ if (isset($_POST["login"])) {
             $_SESSION["usuario"] = $datos[0];
             $_SESSION["clave"] = $datos[1];
             $_SESSION["ultimo_acceso"] = time();
-            header("Location: funciones.php");
+            header("Location: index.php");
             exit();
         } else {
             $error_usuario = true;

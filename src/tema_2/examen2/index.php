@@ -76,9 +76,9 @@ function entablarHorario($link, $id_usuario)
                                 mysqli_free_result($result);
                             }
                         }
-                        $tabla .= "<br><a href='funciones.php?dia=$j&hora=$i'>Editar</a></td>";
+                        $tabla .= "<br><a href='index.php?dia=$j&hora=$i'>Editar</a></td>";
                     } else {
-                        $tabla .= "<td><a href='funciones.php?dia=$j&hora=$i'>Añadir</a></td>";
+                        $tabla .= "<td><a href='index.php?dia=$j&hora=$i'>Añadir</a></td>";
                     }
                 }
             }
@@ -151,13 +151,13 @@ function entablarHorario($link, $id_usuario)
         $sql = "SELECT grupos.nombre, horario_lectivo.id_horario FROM grupos INNER JOIN horario_lectivo ON grupos.id_grupo = horario_lectivo.grupo WHERE horario_lectivo.dia = $dia AND horario_lectivo.hora = $hora AND horario_lectivo.usuario = " . $_SESSION['id_usuario'];
         $result = mysqli_query($link, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr><td>" . $row['nombre'] . "</td><td><a href='funciones.php?id_horario=" . $row['id_horario'] . "'>Quitar</a></td></tr>";
+            echo "<tr><td>" . $row['nombre'] . "</td><td><a href='index.php?id_horario=" . $row['id_horario'] . "'>Quitar</a></td></tr>";
         }
         
         mysqli_free_result($result);
         echo "</table>";
 
-        echo "<form action='funciones.php' method='post'>";
+        echo "<form action='index.php' method='post'>";
         echo "<label for='grupo'>Añadir grupo:</label>";
         echo "<select name='grupo' id='grupo'>";
         $sql = "SELECT * FROM grupos WHERE id_grupo NOT IN (SELECT grupo FROM horario_lectivo WHERE usuario = " . $_SESSION['id_usuario'] . " AND dia = $dia AND hora = $hora)";

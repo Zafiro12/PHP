@@ -25,7 +25,7 @@ if (isset($_POST['id']) && !empty(trim($_POST['id']))) {
     require_once "config.php";
     $id = $_POST['id'];
     if (eliminar($link, "usuarios", $id)) {
-        header("location: funciones.php");
+        header("location: index.php");
         exit();
     } else {
         echo "Algo salió mal. Por favor, inténtelo de nuevo más tarde.";
@@ -50,7 +50,7 @@ if (isset($_POST['id']) && !empty(trim($_POST['id']))) {
             <div class="centrar">
                 <div>
                     <input type="submit" value="Si" class="boton">
-                    <button type="button" onclick="window.location.href='funciones.php'">No</button>
+                    <button type="button" onclick="window.location.href='index.php'">No</button>
                 </div>
             </div>
         </form>

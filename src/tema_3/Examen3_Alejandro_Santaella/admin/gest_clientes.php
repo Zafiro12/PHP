@@ -15,7 +15,7 @@ if (isset($_GET["accion"])) {
 <body>
 <h1>Video club</h1>
 <?php
-echo "<h2>Bienvenido " . $_SESSION["usuario"] . " - <a href='funciones.php?salir=1'>Salir</a></h2>";
+echo "<h2>Bienvenido " . $_SESSION["usuario"] . " - <a href='index.php?salir=1'>Salir</a></h2>";
 ?>
 <h3>Tabla de clientes</h3>
 <table border="1">
@@ -32,7 +32,7 @@ echo "<h2>Bienvenido " . $_SESSION["usuario"] . " - <a href='funciones.php?salir
             echo "<tr>";
             echo "<td>" . $fila["usuario"] . "</td>";
             echo "<td><img src='Images/" . $fila["foto"] . "' width='100px'></td>";
-            echo "<td><a href='funciones.php?accion=modificar&id=" . $fila["id_cliente"] . "'>Modificar</a> - <a href='funciones.php?accion=eliminar&id=" . $fila["id_cliente"] . "'>Eliminar</a></td>";
+            echo "<td><a href='index.php?accion=modificar&id=" . $fila["id_cliente"] . "'>Modificar</a> - <a href='index.php?accion=eliminar&id=" . $fila["id_cliente"] . "'>Eliminar</a></td>";
             echo "</tr>";
         }
     }

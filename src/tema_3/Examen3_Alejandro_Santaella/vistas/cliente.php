@@ -7,7 +7,7 @@
 <body>
 <h1>Video club</h1>
 <?php
-echo "<h2>Bienvenido " . $_SESSION["usuario"] . " - <a href='funciones.php?salir=1'>Salir</a></h2>";
+echo "<h2>Bienvenido " . $_SESSION["usuario"] . " - <a href='index.php?salir=1'>Salir</a></h2>";
 
 $consulta = "select * from clientes where usuario = ? and clave = ?";
 $resultado = ejecutar_consulta($consulta, array($_SESSION["usuario"], $_SESSION["clave"]))->fetch(PDO::FETCH_ASSOC);
@@ -65,7 +65,7 @@ if (isset($_POST["cambiar"])) {
 $consulta = "select * from clientes where usuario = ? and clave = ?";
 $resultado = ejecutar_consulta($consulta, array($_SESSION["usuario"], $_SESSION["clave"]))->fetch(PDO::FETCH_ASSOC);
 
-echo "<form action='funciones.php' method='post' enctype='multipart/form-data'>";
+echo "<form action='index.php' method='post' enctype='multipart/form-data'>";
 
 echo "<h3>Foto de perfil:</h3>";
 echo "<img src='Images/" . $resultado["foto"] . "' alt='foto' height='100px'>";

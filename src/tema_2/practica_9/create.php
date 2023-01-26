@@ -119,7 +119,7 @@ if (isset($_POST['insertar'])) {
                 }
 
                 if (insertar($link, "peliculas", $titulo, $director, $sinopsis, $tematica, $caratula)) {
-                    header("location: funciones.php");
+                    header("location: index.php");
                 } else {
                     $error_insercion = true;
                 }
