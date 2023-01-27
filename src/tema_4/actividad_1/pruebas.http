@@ -1,2 +1,15 @@
+### Todos los productos
+GET http://localhost/tema_4/actividad_1/servicio/productos
+Accept: application/json
+
+###
+GET http://localhost/tema_4/actividad_1/servicio/producto/3DSNG
+Accept: application/json
+
+###
+GET http://localhost/tema_4/actividad_1/servicio/productos
+Accept: application/json
+
+###
 GET http://localhost/tema_4/actividad_1/servicio/productos
 Accept: application/json
