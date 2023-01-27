@@ -2,9 +2,9 @@
 const HOST = 'db';
 const USER = 'jose';
 const PASSWORD = 'josefa';
-const DB = 'bd_blog';
+const DB = 'bd_tienda';
 
-function ejecutar_consulta(string $consulta, ?array $array = [])
+function ejecutar_consulta(string $consulta, ?array $array = []): bool|PDOStatement
 {
     try {
         $conexion = new PDO("mysql:host=" . HOST . ";dbname=" . DB, USER, PASSWORD);
@@ -17,7 +17,7 @@ function ejecutar_consulta(string $consulta, ?array $array = [])
         }
 
         unset($conexion);
-    } catch (PDOException $e) {
+    } catch (PDOException) {
         $sentencia = false;
     }
 

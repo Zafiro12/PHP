@@ -1,7 +1,7 @@
 <?php
 require "admin/config.php";
 
-function productos()
+function productos(): bool|array
 {
     $consulta = "select * from producto";
 
