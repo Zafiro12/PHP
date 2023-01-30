@@ -13,7 +13,7 @@ function productos(): bool|array
     return false;
 }
 
-function producto($cod): bool|array
+function producto(string $cod): bool|array
 {
     $consulta = "select * from producto where cod=?";
 
