@@ -1,4 +1,5 @@
 <?php
+
 use Slim\App;
 
 require __DIR__ . "/Slim/autoload.php";
@@ -15,7 +16,14 @@ $app->get("/producto/{cod}", function ($request) {
 });
 
 $app->post("/producto/insertar", function ($request) {
-    echo json_encode(productos());
+    $datos[] = $request->getParameter("cod");
+    $datos[] = $request->getParameter("nombre");
+    $datos[] = $request->getParameter("nombre_corto");
+    $datos[] = $request->getParameter("descripcion");
+    $datos[] = $request->getParameter("PVP");
+    $datos[] = $request->getParameter("familia");
+
+    echo json_encode(insertar($datos));
 });
 
 $app->put("/productos/actualizar/{cod}", function ($request) {

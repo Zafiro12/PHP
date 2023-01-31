@@ -24,3 +24,12 @@ function producto(string $cod): bool|array
 
     return false;
 }
+
+function insertar(array $datos): bool
+{
+    $consulta = "insert into producto (cod, nombre, nombre_corto, descripcion, PVP, familia) values (?,?,?,?,?,?)";
+    if (ejecutar_consulta($consulta, $datos)) {
+        return true;
+    }
+    return false;
+}

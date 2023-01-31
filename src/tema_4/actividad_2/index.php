@@ -58,7 +58,7 @@ if (isset($listado)) {
             <th>Código</th>
             <th>Nombre</th>
             <th>PVP</th>
-            <th>Acciones</th>
+            <th colspan="2">Acciones</th>
         </tr>
         <?php
 
@@ -67,7 +67,7 @@ if (isset($listado)) {
             echo "<td><a href='index.php?ver=" . $verProducto->cod . "'>" . $verProducto->cod . "</a></td>";
             echo "<td>" . $verProducto->nombre_corto . "</td>";
             echo "<td>" . $verProducto->PVP . "</td>";
-            echo "<td><a href='index.php?editar=" . $verProducto->cod . "'>Editar</a>|<a href='index.php?borrar=" . $verProducto->cod . "'>Eliminar</a></td>";
+            echo "<td><a href='index.php?editar=" . $verProducto->cod . "'>Editar</a></td><td><a href='index.php?borrar=" . $verProducto->cod . "'>Eliminar</a></td>";
             echo "</tr>";
         }
 
@@ -99,7 +99,10 @@ if (isset($listado)) {
         echo "</tr>";
         ?>
     </table>
-    <a href="index.php?salir=1">Volver</a>
+    <button>
+        <a style="text-decoration: none; color: black" href="index.php?salir=1">Volver</a>
+    </button>
+
     <?php
 }
 ?>
