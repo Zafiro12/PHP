@@ -31,7 +31,7 @@ $app->put("/productos/actualizar/{cod}", function ($request) {
 });
 
 $app->delete("/productos/borrar/{cod}", function ($request) {
-    echo json_encode(productos());
+    echo json_encode(borrar($request->getAttribute("cod")));
 });
 
 try {

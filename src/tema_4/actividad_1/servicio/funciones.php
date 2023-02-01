@@ -33,3 +33,14 @@ function insertar(array $datos): bool
     }
     return false;
 }
+
+function borrar(string $cod)
+{
+    $consulta = "delete from producto where cod=?";
+
+    if (ejecutar_consulta($consulta, array($cod))) {
+        return true;
+    }
+
+    return false;
+}
