@@ -30,7 +30,7 @@ if (isset($_GET["ver"])) {
 if (isset($_GET["borrar"])) {
     $cod = $_GET["borrar"];
     if (isset($_GET["conf"])) {
-        $borrar = json_decode(consumir_servicios_REST(URL . "productos/borrar/" . $cod, "DELETE"));
+        $borrar = json_decode(consumir_servicios_REST(URL . "producto/borrar/" . $cod, "DELETE"));
         if (!$borrar) {
             die("Error de conexión a los servicios.");
         } else {
@@ -58,10 +58,15 @@ if (isset($_GET["borrar"])) {
     <meta charset="UTF-8">
     <title>CRUD - SW</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         table, tr, th, td {
             border: 1px solid black;
             border-collapse: collapse;
             padding: 10px;
+            text-align: center;
         }
     </style>
 </head>

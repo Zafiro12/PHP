@@ -26,11 +26,11 @@ $app->post("/producto/insertar", function ($request) {
     echo json_encode(insertar($datos));
 });
 
-$app->put("/productos/actualizar/{cod}", function ($request) {
+$app->put("/producto/actualizar/{cod}", function ($request) {
     echo json_encode(productos());
 });
 
-$app->delete("/productos/borrar/{cod}", function ($request) {
+$app->delete("/producto/borrar/{cod}", function ($request) {
     echo json_encode(borrar($request->getAttribute("cod")));
 });
 
