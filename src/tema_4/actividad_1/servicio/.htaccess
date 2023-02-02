@@ -1,6 +1,5 @@
 # Do not remove this line or mod_rewrite rules and search engine friendly URLs will stop working
 #RewriteBase /
-Options +FollowSymLinks
 RewriteEngine On
 
 # Some hosts may require you to use the `RewriteBase` directive.
