@@ -48,8 +48,6 @@ if (isset($_GET["borrar"])) {
     echo "</button>";
     echo "<hr>";
 }
-
-
 ?>
 
 <!doctype html>
