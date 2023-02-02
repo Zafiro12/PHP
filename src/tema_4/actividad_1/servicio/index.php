@@ -11,17 +11,21 @@ $app->get("/productos", function () {
     echo json_encode(productos());
 });
 
+$app->get("/familias", function () {
+    echo json_encode(getFamilias());
+});
+
 $app->get("/producto/{cod}", function ($request) {
     echo json_encode(producto($request->getAttribute("cod")));
 });
 
 $app->post("/producto/insertar", function ($request) {
-    $datos[] = $request->getParameter("cod");
-    $datos[] = $request->getParameter("nombre");
-    $datos[] = $request->getParameter("nombre_corto");
-    $datos[] = $request->getParameter("descripcion");
-    $datos[] = $request->getParameter("PVP");
-    $datos[] = $request->getParameter("familia");
+    $datos[] = $request->getParam("cod");
+    $datos[] = $request->getParam("nombre");
+    $datos[] = $request->getParam("nombre_corto");
+    $datos[] = $request->getParam("descripcion");
+    $datos[] = $request->getParam("PVP");
+    $datos[] = $request->getParam("familia");
 
     echo json_encode(insertar($datos));
 });

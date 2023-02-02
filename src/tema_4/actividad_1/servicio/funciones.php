@@ -34,12 +34,24 @@ function insertar(array $datos): bool
     return false;
 }
 
-function borrar(string $cod)
+function borrar(string $cod): bool
 {
     $consulta = "delete from producto where cod=?";
 
     if (ejecutar_consulta($consulta, array($cod))) {
         return true;
+    }
+
+    return false;
+}
+
+function getFamilias(): bool|array
+{
+    $consulta = "select * from familia";
+
+    if ($resultado = ejecutar_consulta($consulta)) {
+        $respuesta["familias"] = $resultado->fetchAll(PDO::FETCH_ASSOC);
+        return $respuesta;
     }
 
     return false;
