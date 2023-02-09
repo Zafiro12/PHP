@@ -1,5 +1,5 @@
 <?php
-const HOST = 'db';
+const HOST = 'localhost';
 const USER = 'jose';
 const PASSWORD = 'josefa';
 const DB = 'bd_tienda';
