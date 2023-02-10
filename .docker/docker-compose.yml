@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   apache2:
+    container_name: "php-apache2"
     build:
       context: .
       dockerfile: php/Dockerfile
@@ -16,6 +17,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   db:
+    container_name: "mysql"
     build:
       context: .
       dockerfile: mysql/Dockerfile
@@ -32,6 +34,7 @@ services:
       - db_data:/var/lib/mysql
 
   phpmyadmin:
+    container_name: "phpmyadmin"
     image: phpmyadmin:latest
     restart: always
     ports:
