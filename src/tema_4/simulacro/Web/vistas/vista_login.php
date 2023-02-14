@@ -8,18 +8,7 @@ if(isset($_POST["btnLogin"]))
         $url=DIR_SERV."/login";
         $datos_login["usuario"]=$_POST["usuario"];
         $datos_login["clave"]=md5($_POST["clave"]);
-        $respuesta=consumir_servicios_REST($url,"POST",$datos_login);
-        $obj=json_decode($respuesta);
-        if(!$obj)
-        {
-            session_destroy();
-            die(error_page("Examen4 PHP","<h1>Examen4 PHP</h1><p>Error consumiendo el servicio: ".$url."</p>".$respuesta ));
-        }
-        if(isset($obj->error))
-        {
-            session_destroy();
-            die(error_page("Examen4 PHP","<h1>Examen4 PHP</h1><p>".$obj->error."</p>"));
-        }
+        $obj = getObj($url, $datos_login);
         if(isset($obj->mensaje))
         {
             $error_usuario=true;

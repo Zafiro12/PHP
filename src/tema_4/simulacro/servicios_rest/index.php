@@ -23,8 +23,6 @@ $app->post('/login', function ($request) {
 $app->get('/horario/{id_usuario}', function ($request) {
 
     $id_usuario = $request->getAttribute("id_usuario");
-    echo "horario de usuario: $id_usuario";
-
     $resultado = json_encode(horario_usuario($id_usuario));
     echo $resultado;
 });
@@ -65,21 +63,23 @@ $app->get('/gruposLibres/{dia}/{hora}/{id_usuario}', function ($request) {
     echo $resultado;
 });
 
-$app->delete('/borrarGrupo/{dia}/{hora}/{id_usuario}', function ($request) {
+$app->delete('/borrarGrupo/{dia}/{hora}/{id_usuario}/{id_grupo}', function ($request) {
 
     $datos[] = $request->getAttribute("dia");
     $datos[] = $request->getAttribute("hora");
     $datos[] = $request->getAttribute("id_usuario");
+    $datos[] = $request->getAttribute("id_grupo");
 
     $resultado = json_encode(borrar_grupo($datos));
     echo $resultado;
 });
 
-$app->post('/insertarGrupo/{dia}/{hora}/{id_usuario}', function ($request) {
+$app->post('/insertarGrupo/{dia}/{hora}/{id_usuario}/{id_grupo}', function ($request) {
 
     $datos[] = $request->getAttribute("dia");
     $datos[] = $request->getAttribute("hora");
     $datos[] = $request->getAttribute("id_usuario");
+    $datos[] = $request->getAttribute("id_grupo");
 
     $resultado = json_encode(insertar_grupo($datos));
     echo $resultado;
