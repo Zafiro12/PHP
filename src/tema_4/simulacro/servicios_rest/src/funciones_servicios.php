@@ -99,7 +99,7 @@ function usuarios_normales(): array
     return $respuesta;
 }
 
-function tiene_grupo($datos)
+function tiene_grupo($datos): array
 {
     try {
         $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
@@ -116,6 +116,35 @@ function tiene_grupo($datos)
                 $respuesta["tiene_grupo"] = true;
             } else {
                 $respuesta["tiene_grupo"] = false;
+            }
+        } catch (PDOException $e) {
+            $respuesta["error"] = "Imposible conectar:" . $e->getMessage();
+        }
+    } catch (PDOException $e) {
+        $respuesta["error"] = "Imposible conectar:" . $e->getMessage();
+    }
+    return $respuesta;
+}
+
+function grupos($datos): array
+{
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+
+        try {
+            $consulta = "SELECT * FROM grupos JOIN horario_lectivo ON grupos.id_grupo = horario_lectivo.grupo WHERE horario_lectivo.dia = ? AND horario_lectivo.hora = ? AND horario_lectivo.usuario = ?";
+
+            $sentencia = $conexion->prepare($consulta);
+            $sentencia->execute($datos);
+
+            $sentencia = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($sentencia) > 0) {
+                foreach ($sentencia as $grupo) {
+                    $respuesta["grupos"][] = [$grupo["id_grupo"], $grupo["nombre"]];
+                }
+            } else {
+                $respuesta["grupos"] = false;
             }
         } catch (PDOException $e) {
             $respuesta["error"] = "Imposible conectar:" . $e->getMessage();
