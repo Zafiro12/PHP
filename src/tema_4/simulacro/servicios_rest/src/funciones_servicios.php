@@ -154,3 +154,32 @@ function grupos($datos): array
     }
     return $respuesta;
 }
+
+function grupos_libres($datos): array
+{
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+
+        try {
+            $consulta = "SELECT * FROM grupos JOIN horario_lectivo ON grupos.id_grupo = horario_lectivo.grupo WHERE horario_lectivo.dia = ? AND horario_lectivo.hora = ? AND NOT horario_lectivo.usuario = ?";
+
+            $sentencia = $conexion->prepare($consulta);
+            $sentencia->execute($datos);
+
+            $sentencia = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($sentencia) > 0) {
+                foreach ($sentencia as $grupo) {
+                    $respuesta["grupos"][] = [$grupo["id_grupo"], $grupo["nombre"]];
+                }
+            } else {
+                $respuesta["grupos"] = false;
+            }
+        } catch (PDOException $e) {
+            $respuesta["error"] = "Imposible conectar:" . $e->getMessage();
+        }
+    } catch (PDOException $e) {
+        $respuesta["error"] = "Imposible conectar:" . $e->getMessage();
+    }
+    return $respuesta;
+}
