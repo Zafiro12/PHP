@@ -35,5 +35,61 @@ function getObj(string $url, $datos_login): mixed
     return $obj;
 }
 
+function entablarHorario($usuario): string
+{
+    $url = DIR_SERV . "/horario/" . $usuario->id_usuario;
+    $horario = json_decode(consumir_servicios_REST($url, "GET"));
+
+    if (isset($horario->horario)) {
+        $tabla = "<h2>Horario del profesor: " . $usuario->nombre . "</h2>";
+        $tabla .= "<table border='1' style='border-collapse: collapse;text-align: center'>";
+        $tabla .= "<tr><th></th><th>Lunes</th><th>Martes</th><th>Miércoles</th><th>Jueves</th><th>Viernes</th></tr>";
+        for ($i = 0; $i < 7; $i++) {
+            $tabla .= "<tr>";
+            for ($j = 0; $j < 5; $j++) {
+
+                $hora = match ($i) {
+                    0 => "8:15-9:15",
+                    1 => "9:15-10:15",
+                    2 => "10:15-11:15",
+                    3 => "11:15-11:45",
+                    4 => "11:45-12:45",
+                    5 => "12:45-13:45",
+                    6 => "13:45-14:45"
+                };
+                if ($j == 0) {
+                    $tabla .= "<td>" . $hora . "</td>";
+                }
+                if ($i == 3) {
+                    $tabla .= "<td colspan='5'>RECREO</td>";
+                    break;
+                }
+
+                else {
+                    $tabla .= "<td>";
+                    foreach ($horario->horario as $celda) {
+                        if ($celda->dia-1 == $j && $celda->hora-1 == $i) {
+                            $url = DIR_SERV . "/grupos/" . $celda->dia . "/" . $celda->hora . "/" . $usuario->id_usuario;
+                            $grupos = json_decode(consumir_servicios_REST($url, "GET"))->grupos;
+                            foreach ($grupos as $grupo) {
+                                // Separar los grupos con un salto de línea
+                                $tabla .= $grupo[1] . "<br>";
+                            }
+                        }
+                    }
+                    $tabla .= "</td>";
+                }
+            }
+            $tabla .= "</tr>";
+        }
+
+        $tabla .= "</table>";
+    } else {
+        $tabla = "<p>El profesor no tiene horario</p>";
+    }
+
+    return $tabla;
+}
+
 const DIR_SERV = "http://localhost/tema_4/simulacro/servicios_rest";
 const MINUTOS = 10;
