@@ -72,7 +72,6 @@ function entablarHorario($usuario): string
                             $url = DIR_SERV . "/grupos/" . $celda->dia . "/" . $celda->hora . "/" . $usuario->id_usuario;
                             $grupos = json_decode(consumir_servicios_REST($url, "GET"))->grupos;
                             foreach ($grupos as $grupo) {
-                                // Separar los grupos con un salto de línea
                                 $tabla .= $grupo[1] . "<br>";
                             }
                         }
