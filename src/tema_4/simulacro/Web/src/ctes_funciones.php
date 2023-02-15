@@ -58,7 +58,7 @@ function entablarHorario($usuario): string
                     6 => "13:45-14:45"
                 };
                 if ($j == 0) {
-                    $tabla .= "<td>" . $hora . "</td>";
+                    $tabla .= "<td class='hora'>" . $hora . "</td>";
                 }
                 if ($i == 3) {
                     $tabla .= "<td colspan='5'>RECREO</td>";

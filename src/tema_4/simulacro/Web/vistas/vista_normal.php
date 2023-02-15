@@ -17,6 +17,21 @@
         .enlinea {
             display: inline
         }
+
+        table {
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .hora {
+            background-color: #4CAF50;
+            color: white;
+        }
     </style>
 </head>
 <body>
