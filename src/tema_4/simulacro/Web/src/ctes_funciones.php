@@ -57,31 +57,28 @@ function entablarHorario($usuario): string
                     5 => "12:45-13:45",
                     6 => "13:45-14:45"
                 };
+
                 if ($j == 0) {
                     $tabla .= "<td class='hora'>" . $hora . "</td>";
-                }
-                if ($i == 3) {
+                } else if ($i == 3) {
                     $tabla .= "<td colspan='5'>RECREO</td>";
                     break;
-                }
-
-                else {
+                } else {
                     $tabla .= "<td>";
-                    foreach ($horario->horario as $celda) {
-                        if ($celda->dia-1 == $j && $celda->hora-1 == $i) {
-                            $url = DIR_SERV . "/grupos/" . $celda->dia . "/" . $celda->hora . "/" . $usuario->id_usuario;
-                            $grupos = json_decode(consumir_servicios_REST($url, "GET"))->grupos;
-                            foreach ($grupos as $grupo) {
-                                $tabla .= $grupo[1] . "<br>";
-                            }
+                    $url = DIR_SERV . "/grupos/" . $j + 1 . "/" . $i + 1 . "/" . $usuario->id_usuario;
+                    $grupos = json_decode(consumir_servicios_REST($url, "GET"));
+
+                    if ($grupos->grupos) {
+                        foreach ($grupos->grupos as $grupo) {
+                            $tabla .= $grupo[1] . "<br>";
                         }
                     }
+
                     $tabla .= "</td>";
                 }
             }
             $tabla .= "</tr>";
         }
-
         $tabla .= "</table>";
     } else {
         $tabla = "<p>El profesor no tiene horario</p>";
