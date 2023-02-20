@@ -1,5 +1,5 @@
 <?php
-const DIR = "http://localhost/Proyectos/Examen_SW_22_23/servicios_rest"; // TODO: Cambiar por la dirección del servidor
+const DIR = "http://localhost/tema_4/Examen_SW_22_23/servicios_rest"; // TODO: Cambiar por la dirección del servidor
 const MINUTOS = 2;
 
 function consumir_servicios_REST($url, $metodo, $datos = null): bool|string
