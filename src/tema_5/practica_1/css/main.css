@@ -27,3 +27,40 @@ th {
     color: #fff;
     text-align: center;
 }
+
+.codigo:hover {
+    background-color: rgb(0, 100, 255);
+}
+
+#add {
+    cursor: pointer;
+    background-color: rgb(0, 150, 255);
+    color: #fff;
+    text-align: center;
+}
+
+#add:hover {
+    background-color: rgb(0, 100, 255);
+}
+
+.editar {
+    cursor: pointer;
+    background-color: rgb(255, 187, 0);
+    color: #fff;
+    text-align: center;
+}
+
+.editar:hover {
+    background-color: rgb(255, 150, 0);
+}
+
+.borrar {
+    cursor: pointer;
+    background-color: rgb(255, 0, 0);
+    color: #fff;
+    text-align: center;
+}
+
+.borrar:hover {
+    background-color: rgb(200, 0, 0);
+}
