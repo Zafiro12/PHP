@@ -1,0 +1,29 @@
+* {
+    box-sizing: border-box;
+}
+
+#contenido {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+table,
+th,
+td {
+    border-collapse: collapse;
+    border: 1px solid lightgrey;
+    padding: 15px;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.codigo {
+    cursor: pointer;
+    background-color: rgb(0, 150, 255);
+    color: #fff;
+    text-align: center;
+}
