@@ -15,78 +15,12 @@ function addProducto() {
             "<label for='nombre'>Nombre</label>" +
             "<input type='text' id='nombre' name='nombre' required>" +
             "<label for='descripcion'>Descripción</label>" +
-            "<textarea id='descripcion' name='descripcion' required></textarea>" +
+            "<input type='text' id='descripcion' name='descripcion' required>" +
             "<label for='PVP'>PVP</label>" +
             "<input type='number' id='PVP' name='PVP' required>" +
-            "<label for='familia'>Familia</label>" +
-            "<select id='familia' name='familia'>" +
-            "</select>" +
-            "<div>" +
-            "<button type='submit'>Añadir</button>" +
-            "<button type='reset' style='background-color: red;'>Reset</button>" +
-            "<button type='button' onclick='volver()'>Volver</button>" +
-            "</div>" +
+            "<input type='submit' value='Añadir'>" +
             "</form>"
     );
-
-    $.ajax({
-        url: SERVER_DIR + "/familias",
-        type: "GET",
-        dataType: "json",
-    })
-        .done(function (data) {
-            if (!data) {
-                ('<h2 style="text-align: center;">ERROR</h2><p>Ha ocurrido un error</p>');
-            } else {
-                var familias = "";
-                $.each(data.familias, function (_key, tupla) {
-                    familias +=
-                        "<option value='" +
-                        tupla["cod"] +
-                        "'>" +
-                        tupla["nombre"] +
-                        "</option>";
-                });
-                $("#familia").html(familias);
-            }
-        })
-        .fail(function (_a, b) {
-            $("#respuesta").html("Error en la petición: " + b);
-        });
-
-    $("#addForm").submit(function (event) {
-        event.preventDefault();
-        // Si esta vacio el campo sustituirlo por null
-        $(this)
-            .find("input, textarea")
-            .each(function () {
-                if ($(this).val() == "") {
-                    $(this).val(null);
-                }
-            });
-
-        let form = $(this);
-        let data = form.serialize();
-        $.ajax({
-            url: SERVER_DIR + "/producto/insertar",
-            type: "POST",
-            data: data,
-        })
-            .done(function (data) {
-                if (!data) {
-                    $("#respuesta").html(
-                        '<h2 style="text-align: center;">ERROR</h2><p>No se ha podido añadir el producto</p>'
-                    );
-                } else {
-                    $("#respuesta").html(
-                        '<h2 style="text-align: center;">OK</h2><p>Producto añadido correctamente</p>'
-                    );
-                }
-            })
-            .fail(function (_a, b) {
-                $("#respuesta").html("Error en la petición: " + b);
-            });
-    });
 }
 
 function getProducto(codigo) {
