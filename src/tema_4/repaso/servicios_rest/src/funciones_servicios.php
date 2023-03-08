@@ -29,7 +29,7 @@ function login($datos)
     try {
         $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
 
-        $consulta = "SELECT * FROM usuarios WHERE usuario=? AND clave=?";
+        $consulta = "SELECT * FROM usuarios WHERE lector=? AND clave=?";
         try {
             $sentencia = $conexion->prepare($consulta);
             $sentencia->execute($datos);
@@ -66,7 +66,7 @@ function logueado($datos)
     try {
         $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
 
-        $consulta = "SELECT * FROM usuarios WHERE usuario=? AND clave=?";
+        $consulta = "SELECT * FROM usuarios WHERE lector=? AND clave=?";
         try {
             $sentencia = $conexion->prepare($consulta);
             $sentencia->execute($datos);

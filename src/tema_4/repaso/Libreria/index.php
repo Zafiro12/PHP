@@ -7,20 +7,15 @@ session_start();
 const URL_BASE = "http://localhost/tema_4/repaso/servicios_rest";
 const MINUTOS = 5;
 
-if(isset($_SESSION["usuario"])) {
-    // seguridad
-    $url = URL_BASE . "/logueado";
-    $datos = $_SESSION["key"];
+$salto = "index.php";
 
-    $respuesta = consumir_servicios_REST($url, "GET", $datos);
-    $obj = json_decode($respuesta);
 
-    if (!$obj) {
-        die("<p>Error en la respuesta del servidor</p>");
-    }
-
-    if (isset($obj->error)) {
-        die("<p>Error: " . $obj->error . "</p>");
+if (isset($_SESSION["usuario"])) {
+    require "src/seguridad.php";
+    if ($usuario->tipo == "admin") {
+        header("Location: admin/index.php");
+    } else {
+        require "vistas/vista_usuario.php";
     }
 
 } else {

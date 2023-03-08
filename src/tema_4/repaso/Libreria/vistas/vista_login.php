@@ -86,7 +86,7 @@ if (isset($_POST["login"])) {
             if (isset($error_usuario) && $error_usuario) {
                 if ($_POST["usuario"] == "") {
                     echo "<span style='color:red'>* El usuario no puede estar vacío</span>";
-                }else{
+                } else {
                     echo "<span style='color:red'>* El usuario es incorrecto o no existe</span>";
                 }
             }
@@ -100,6 +100,13 @@ if (isset($_POST["login"])) {
 
         <input type="submit" name="login" value="Entrar">
     </form>
+
+    <?php
+    if (isset($_SESSION["seguridad"])) {
+        echo "<p style='color:red'>" . $_SESSION["seguridad"] . "</p>";
+        session_destroy();
+    }
+    ?>
 
     <h2>Listado de los libros</h2>
     <?php
