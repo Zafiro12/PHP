@@ -1,136 +1,92 @@
 <?php
-if (isset($_POST["login"])) {
-    $error_usuario = $_POST["usuario"] == "";
-    $error_clave = $_POST["clave"] == "";
-    $error_form = $error_usuario || $error_clave;
+if(isset($_POST["btnLogin"]))
+{
+    $error_usuario=$_POST["usuario"]=="";
+    $error_clave=$_POST["clave"]=="";
+    $error_form=$error_usuario||$error_clave;
+    if(!$error_form)
+    {
+        $url=DIR_SERV."/login";
+        $datos["lector"]=$_POST["usuario"];
+        $datos["clave"]=md5($_POST["clave"]);
+        $respuesta=consumir_servicios_REST($url,"POST",$datos);
+        $obj=json_decode($respuesta);
+        if(!$obj)
+            die(error_page("Examen Librería","Librería","<p>".$respuesta."</p>"));
+        
+        if(isset($obj->error))
+            die(error_page("Examen Librería","Librería","<p>".$obj->error."</p>"));
 
-    if (!$error_form) {
-        $lector = $_POST["usuario"];
-        $clave = md5($_POST["clave"]);
-
-        $url = URL_BASE . "/login";
-
-        $datos = array(
-            "lector" => $lector,
-            "clave" => $clave
-        );
-
-        $respuesta = consumir_servicios_REST($url, "POST", $datos);
-
-        $obj = json_decode($respuesta);
-
-        if (!$obj) {
-            die("<p>Error en la respuesta del servidor</p>");
+        if(isset($obj->mensaje))
+        {
+            $error_usuario=true;
         }
-
-        if (isset($obj->error)) {
-            die("<p>Error: " . $obj->error . "</p>");
-        }
-
-        if (isset($obj->mensaje)) {
-            $error_usuario = true;
-        } else {
-            $_SESSION["tipo"] = $obj->usuario->tipo;
-            $_SESSION["usuario"] = $lector;
-            $_SESSION["clave"] = $clave;
-            $_SESSION["key"]["api_session"] = $obj->api_session;
-            $_SESSION["ultimo_acceso"] = time();
-
-            header("Location: index.php");
+        else
+        {
+            $_SESSION["usuario"]=$datos["lector"];
+            $_SESSION["clave"]=$datos["clave"];
+            $_SESSION["ultimo_acceso"]=time();
+            $_SESSION["key"]["api_session"]=$obj->api_session;
+            if($obj->usuario->tipo=="normal")
+                header("Location:index.php");
+            else
+                header("Location:admin/index.php");
+            exit();
         }
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Examen Librería</title>
     <style>
-        .libros {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .libro {
-            border: 1px solid black;
-            margin: 10px;
-            padding: 10px;
-            text-align: center;
-
-            flex: 25%;
-        }
-
-        .libro>img {
-            width: 75%;
-        }
+        #libros{overflow:hidden}
+        .libro{float:left;width:33.3333%; text-align:center;margin:1.5em 0}
+        .libro img{width:70%}
     </style>
 </head>
-
 <body>
-    <h1>Libreria</h1>
+    <h1>Librería</h1>
     <form action="index.php" method="post">
         <p>
-            <label for="usuario">Usuario:</label>
-            <input type="text" name="usuario" id="usuario" value="<?php
-                                                                    if (isset($_POST["usuario"])) {
-                                                                        echo $_POST["usuario"];
-                                                                    }
-                                                                    ?>">
+            <label for="usuario">Usuario: </label>
+            <input type="text" name="usuario" id="usuario" value="<?php if(isset($_POST["usuario"])) echo $_POST["usuario"];?>"/>
             <?php
-            if (isset($error_usuario) && $error_usuario) {
-                if ($_POST["usuario"] == "") {
-                    echo "<span style='color:red'>* El usuario no puede estar vacío</span>";
-                } else {
-                    echo "<span style='color:red'>* El usuario es incorrecto o no existe</span>";
-                }
+            if(isset($_POST["btnLogin"])&& $error_usuario)
+            {
+                if($_POST["usuario"]=="")
+                    echo "<span class='error'> * Campo vacío * </span>";
+                else
+                    echo "<span class='error'> * Usuario y/o clave incorrectos * </span>";
             }
             ?>
         </p>
-
         <p>
-            <label for="clave">Contraseña:</label>
-            <input type="password" name="clave" id="clave">
+            <label for="clave">Contraseña: </label>
+            <input type="password" name="clave" id="clave"/>
+            <?php
+            if(isset($_POST["btnLogin"])&& $error_clave)
+                echo "<span class='error'> * Campo vacío * </span>";
+            ?>
         </p>
-
-        <input type="submit" name="login" value="Entrar">
+        <p>
+            <button type="submit" name="btnLogin">Login</button>
+        </p>
     </form>
 
     <?php
-    if (isset($_SESSION["seguridad"])) {
-        echo "<p style='color:red'>" . $_SESSION["seguridad"] . "</p>";
+    if(isset($_SESSION["seguridad"]))
+    {
+        echo "<p class='mensaje'>".$_SESSION["seguridad"]."</p>";
         session_destroy();
     }
-    ?>
 
-    <h2>Listado de los libros</h2>
-    <?php
-    $url = URL_BASE . "/obtenerLibros";
-
-    $respuesta = consumir_servicios_REST($url, "GET");
-    $obj = json_decode($respuesta);
-
-    if (!$obj) {
-        die("<p>Error en la respuesta del servidor</p>");
-    }
-
-    if (isset($obj->error)) {
-        die("<p>Error: " . $obj->error . "</p>");
-    }
-    echo "<div class='libros'>";
-    foreach ($obj->libros as $libro) {
-        echo "<div class='libro'>";
-        echo "<img src='images/" . $libro->portada . "' alt='Portada del libro'>";
-        echo "<p><strong>" . $libro->titulo . "</strong> - " . $libro->precio . "</p>";
-        echo "</div>";
-    }
-    echo "</div>";
+    require "vistas/vista_libros.php";
+    
     ?>
 </body>
-
 </html>
