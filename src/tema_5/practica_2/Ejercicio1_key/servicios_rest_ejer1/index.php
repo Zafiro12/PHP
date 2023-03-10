@@ -96,6 +96,7 @@ $app->put('/producto/actualizar/{cod}',function($request){
     session_start();
     if(isset($_SESSION["tipo"]) && $_SESSION["tipo"]=="admin")
     {
+        $datos[]=$request->getAttribute('cod');
         $datos[]=$request->getParam('nombre');
         $datos[]=$request->getParam('nombre_corto');
         $datos[]=$request->getParam('descripcion');

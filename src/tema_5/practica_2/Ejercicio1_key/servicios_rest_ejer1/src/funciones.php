@@ -211,7 +211,7 @@ function actualizar_producto($datos)
         $conexion=new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
         try
         {
-            $consulta="update producto set nombre=?,nombre_corto=?,descripcion=?,PVP=?,familia=? where cod=?";
+            $consulta="update producto set cod=?,nombre=?,nombre_corto=?,descripcion=?,PVP=?,familia=? where cod=?";
             $sentencia=$conexion->prepare($consulta);
             $sentencia->execute($datos);
             $respuesta["mensaje"]=$datos[5];
