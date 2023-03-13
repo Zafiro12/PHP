@@ -85,6 +85,46 @@ function obtener_productos() {
         });
 }
 
+function obtener_productos_normal() {
+    $.ajax({
+        url: DIR_SERV + "/productos",
+        type: "GET",
+        dataType: "json",
+        data: { api_session: localStorage.api_session },
+    })
+        .done(function (data) {
+            if (data.mensaje_error) {
+                $("#errores").html(data.mensaje_error);
+                $("#principal").html("");
+            } else if (data.no_login) {
+                cargar_vista_login("El tiempo de sesión de la API ha expirado");
+                localStorage.clear();
+            } else {
+                var html_output = "<table class='centrado'>";
+                html_output +=
+                    "<tr><th>COD</th><th>Nombre</th><th>PVP</th></tr>";
+                $.each(data.productos, function (key, tupla) {
+                    html_output += "<tr>";
+                    html_output +=
+                        "<td><button onclick='seguridad(listar,\"" +
+                        tupla["cod"] +
+                        "\")' class='enlace'>" +
+                        tupla["cod"] +
+                        "</button></td>";
+                        html_output += "<td>" + tupla["nombre_corto"] + "</td>";
+                    html_output += "<td>" + tupla["PVP"] + "</td>";
+                    html_output += "</tr>";
+                });
+                html_output += "</table>";
+                $("#productos").html(html_output);
+            }
+        })
+        .fail(function (a, b) {
+            $("#errores").html(error_ajax_jquery(a, b));
+            $("#principal").html("");
+        });
+}
+
 function confirmar_borrar(cod) {
     output =
         "<p class='centrado'>Se dispone usted a borrar el producto: " +
