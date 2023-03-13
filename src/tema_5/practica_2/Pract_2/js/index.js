@@ -133,7 +133,7 @@ function comprobar_nuevo() {
                                 "El tiempo de sesión de la API ha expirado"
                             );
                             localStorage.clear();
-                        } else {
+                        } else if (data.mensaje_error !== undefined) {
                             $("#errores").html(data.mensaje_error);
                             $("#principal").html("");
                         }
