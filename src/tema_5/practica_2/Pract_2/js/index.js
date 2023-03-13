@@ -106,11 +106,8 @@ function obtener_productos_normal() {
                 $.each(data.productos, function (key, tupla) {
                     html_output += "<tr>";
                     html_output +=
-                        "<td><button onclick='seguridad(listar,\"" +
-                        tupla["cod"] +
-                        "\")' class='enlace'>" +
-                        tupla["cod"] +
-                        "</button></td>";
+                        "<td>" +
+                        tupla["cod"] + "</td>";
                         html_output += "<td>" + tupla["nombre_corto"] + "</td>";
                     html_output += "<td>" + tupla["PVP"] + "</td>";
                     html_output += "</tr>";
